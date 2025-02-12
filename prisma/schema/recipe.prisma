@@ -1,6 +1,7 @@
 model Recipe {
   id           String           @id @default(auto()) @map("_id") @db.ObjectId
   title        String
+  image        String
   instructions String
   duration     Int
   slug         String           @unique
