@@ -22,9 +22,10 @@ async function main() {
         await prisma.recipe.create({
             data: {
                 title: customFaker.company.name(),
+                image: customFaker.image.avatarLegacy(),
                 instructions: customFaker.lorem.paragraph(),
-                duration: customFaker.number.int(),
-                slug: customFaker.company.name().toLowerCase().replace(/ /g, '-'),
+                duration: customFaker.number.int({max: 240}),
+                slug: customFaker.helpers.slugify(customFaker.company.name()),
             }
         })
     }
