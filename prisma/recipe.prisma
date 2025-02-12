@@ -1,0 +1,13 @@
+model Recipe {
+  id           String           @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  instructions String
+  duration     Int
+  slug         String           @unique
+  ingredients  Ingredient[]
+  comments     Comment[]
+  tags         TagRecipe[]
+  tools        ToolRecipe[]
+  categories   CategoryRecipe[]
+  createdAt    DateTime         @default(now())
+}
