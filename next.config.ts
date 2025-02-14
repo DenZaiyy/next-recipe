@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
             {
                 protocol: 'https',
                 hostname: 'via.placeholder.com0'
+            },
+            {
+                protocol: 'https',
+                hostname: 'img.spoonacular.com'
             }
         ]
     }

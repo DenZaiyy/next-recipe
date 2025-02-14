@@ -4,10 +4,25 @@ import {NextResponse} from "next/server";
 export async function GET() {
     try {
         const recipes = await db.recipe.findMany({
+            orderBy: {
+                createdAt: 'desc'
+            },
             include: {
-                tags: true,
-                tools: true,
-                categories: true,
+                tags: {
+                    include: {
+                        tag: true
+                    }
+                },
+                tools: {
+                    include: {
+                        tool: true
+                    }
+                },
+                categories: {
+                    include: {
+                        category: true
+                    }
+                },
             }
         })
 

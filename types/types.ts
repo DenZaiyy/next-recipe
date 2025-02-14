@@ -48,9 +48,9 @@ interface TRecipe  {
     slug: string
     ingredients: TIngredient[]
     comments: TComment[]
-    tags: TTag[]
-    tools: TTool[]
-    categories: TCategory[]
+    tags: TTagRecipe[]
+    tools: TToolRecipe[]
+    categories: TCategoryRecipe[]
     createdAt: Date
 }
 

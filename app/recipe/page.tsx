@@ -8,7 +8,7 @@ const RecipePage = async () => {
         <>
             <h1 className="text-4xl text-white font-bold mb-4">Latest Recipes</h1>
 
-            <Slider recipes={recipes}/>
+            {recipes.length > 0 && <Slider recipes={recipes}/> }
         </>
     )
 }
