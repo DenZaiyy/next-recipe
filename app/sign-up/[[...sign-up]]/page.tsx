@@ -4,7 +4,7 @@ const SignUpPage = () => {
     return (
         <div>
             <h1>S'inscrire</h1>
-            <SignUp />
+            <SignUp path="/sign-up" />
         </div>
     );
 };

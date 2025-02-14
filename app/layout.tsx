@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Merriweather } from "next/font/google";
-import { ClerkProvider } from '@clerk/nextjs'
+//import { ClerkProvider } from '@clerk/nextjs'
 import "./globals.css";
 import {Navbar} from "@/components/Navbar";
 import React from "react";

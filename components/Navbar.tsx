@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {SignedIn, SignedOut, SignInButton, SignOutButton, SignUpButton, UserButton} from "@clerk/nextjs";
+//import {SignedIn, SignedOut, SignInButton, SignOutButton, SignUpButton, UserButton} from "@clerk/nextjs";
 
 export const Navbar = () => {
     return (
