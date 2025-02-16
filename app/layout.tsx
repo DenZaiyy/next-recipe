@@ -4,6 +4,7 @@ import { Merriweather } from "next/font/google";
 import "./globals.css";
 import {Navbar} from "@/components/Navbar";
 import React from "react";
+import {Toaster} from "react-hot-toast";
 
 const merriweather = Merriweather({
     weight: ['300', '400', '700', '900'],
@@ -32,6 +33,9 @@ export default function RootLayout({
               <Navbar />
           </header>
           <main className="p-4">
+              <Toaster
+                position={'bottom-right'}
+              />
               {children}
           </main>
           </body>
