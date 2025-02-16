@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight, Clock11, HeartPulse, Leaf, Gauge } from "lucide-react";
+import { ArrowRight, HeartPulse, Leaf } from "lucide-react";
 import React from "react";
 import Link from "next/link";
 import {Category} from "@/components/Category";
