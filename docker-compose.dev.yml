@@ -11,6 +11,7 @@ services:
       - .:/app
       - /app/node_modules
       - /app/.next
+      - ./prisma:/app/prisma
     environment:
       - NODE_ENV=development
     command: npm run dev 

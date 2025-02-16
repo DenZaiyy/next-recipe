@@ -22,7 +22,7 @@ restart:
 	docker restart next-recipe
 
 dev:
-	docker-compose -f docker-compose.dev.yml up -d --build --remove-orphans --force-recreate
+	docker-compose -f docker-compose.dev.yml up --build
 
 logs-dev:
 	docker logs -f next-recipe-web-1
