@@ -24,26 +24,26 @@ interface TComment {
     content: string;
     user: TUser;
     createdAt: Date;
-    //recipe: TRecipe;
+    recipe: TRecipe;
 }
 
 interface TTag {
     id: string;
     name: string;
-    //recipes: TTagRecipe[];
+    recipes: TTagRecipe[];
 }
 
 interface TTool {
     id: string;
     name: string;
     image: string
-    //recipes: TToolRecipe[];
+    recipes: TToolRecipe[];
 }
 
 interface TCategory {
     id: string;
     name: string;
-    //recipes: TRecipe[];
+    recipes: TRecipe[];
 }
 
 interface TRecipe {
