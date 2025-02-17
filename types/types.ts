@@ -22,7 +22,8 @@ interface TStep {
 interface TComment {
     id: string;
     content: string;
-    user: TUser;
+    //user: TUser;
+    userId: string
     createdAt: Date;
     recipe: TRecipe;
 }
@@ -54,12 +55,13 @@ interface TRecipe {
     duration: number;
     difficulty: number;
     slug: string;
+    isVegan: boolean
+    isHealthy: boolean
     createdAt: Date;
     updatedAt?: Date;
     ingredients: TIngredientRecipe[];
     tools: TToolRecipe[];
     steps: TStep[];
-    tags: TTagRecipe[];
     category: TCategory;
     comments?: TComment[];
 }
