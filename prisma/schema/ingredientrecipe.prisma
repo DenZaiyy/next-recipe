@@ -1,0 +1,9 @@
+model IngredientRecipe {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  unit_measure String
+  quantity     Float
+  recipe       Recipe     @relation(fields: [recipeId], references: [id])
+  recipeId     String     @db.ObjectId
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+  ingredientId String     @db.ObjectId
+}

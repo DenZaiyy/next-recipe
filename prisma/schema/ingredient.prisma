@@ -1,7 +1,6 @@
 model Ingredient {
-    id           String  @id @default(auto()) @map("_id") @db.ObjectId
-    name         String
-    unit_measure String
-    Recipe       Recipe? @relation(fields: [recipeId], references: [id])
-    recipeId     String? @db.ObjectId
+  id               String             @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  image            String
+  IngredientRecipe IngredientRecipe[]
 }

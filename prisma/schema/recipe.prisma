@@ -1,13 +1,19 @@
 model Recipe {
-  id           String           @id @default(auto()) @map("_id") @db.ObjectId
+  id           String             @id @default(auto()) @map("_id") @db.ObjectId
   title        String
+  image        String
   instructions String
   duration     Int
-  slug         String           @unique
-  ingredients  Ingredient[]
+  difficulty   Int
+  slug         String             @unique
+  isVegan      Boolean            @default(false)
+  isHealthy    Boolean            @default(false)
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  category     Category           @relation(fields: [categoryId], references: [id])
+  categoryId   String             @db.ObjectId
   comments     Comment[]
-  tags         TagRecipe[]
+  steps        Step[]
   tools        ToolRecipe[]
-  categories   CategoryRecipe[]
-  createdAt    DateTime         @default(now())
+  ingredients  IngredientRecipe[]
 }

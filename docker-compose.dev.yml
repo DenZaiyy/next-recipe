@@ -1,15 +1,17 @@
-version: '3.8'
 services:
   web:
     build: 
       context: .
       dockerfile: Dockerfile.dev
+    env_file:
+      - .env.dev
     ports:
       - "3000:3000"
     volumes:
       - .:/app
       - /app/node_modules
       - /app/.next
+      - ./prisma:/app/prisma
     environment:
       - NODE_ENV=development
     command: npm run dev 

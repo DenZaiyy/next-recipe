@@ -6,6 +6,15 @@ build:
 run:
 	docker run -d -p 3000:3000 --name next-recipe --env-file .env next-recipe
 
+stop:
+	docker stop next-recipe
+
+rm:
+	docker rm next-recipe
+
+clean:
+	docker system prune
+
 logs:
 	docker logs -f next-recipe
 
@@ -14,3 +23,6 @@ restart:
 
 dev:
 	docker-compose -f docker-compose.dev.yml up --build
+
+logs-dev:
+	docker logs -f next-recipe-web-1

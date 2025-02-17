@@ -16,6 +16,9 @@ RUN npm install
 # Copie des fichiers de l'application
 COPY . .
 
+# Using .env variables
+COPY .env.prod .
+
 # Linting
 RUN npm run lint
 
@@ -27,4 +30,4 @@ RUN npm run build
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "start"]
