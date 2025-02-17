@@ -8,6 +8,7 @@ interface IGaugeProps {
 export const DifficultyGauge: React.FC<IGaugeProps> = ({difficulty}) => {
 
     const [color, setColor] = useState("#fff");
+    const theme = localStorage.getItem('theme');
 
     useEffect(() => {
         if (difficulty > 3) {
@@ -19,11 +20,11 @@ export const DifficultyGauge: React.FC<IGaugeProps> = ({difficulty}) => {
         }
     }, [difficulty]);
 
-    return Array.from({ length: 5 }).map((_, index) => (
+    return Array.from({length: 5}).map((_, index) => (
         <Gauge
             key={index}
             size={24}
-            color={index < difficulty ? color : "#fff"}
+            color={index < difficulty ? color : theme == 'dark' ? "#fff" : "#000"}
             strokeWidth={2}
         />
     ));
