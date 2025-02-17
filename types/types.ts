@@ -11,9 +11,6 @@ interface TIngredient {
     id: string
     name: string;
     image: string
-    unit_measure: string;
-    quantity: number
-    //recipe: TRecipe;
 }
 
 interface TStep {
@@ -57,19 +54,14 @@ interface TRecipe {
     duration: number;
     difficulty: number;
     slug: string;
-    ingredients: TIngredient[];
-    tools: TTool[];
+    createdAt: Date;
+    updatedAt?: Date;
+    ingredients: TIngredientRecipe[];
+    tools: TToolRecipe[];
     steps: TStep[];
-    tags: TTag[];
+    tags: TTagRecipe[];
     category: TCategory;
     comments?: TComment[];
-    createdAt: Date;
-}
-
-interface TCategoryRecipe {
-    id: string;
-    category: TCategory;
-    recipe: TRecipe;
 }
 
 interface TTagRecipe {
@@ -82,4 +74,12 @@ interface TToolRecipe {
     id: string;
     tool: TTool;
     recipe: TRecipe;
+}
+
+interface TIngredientRecipe {
+    id: string
+    recipe: TRecipe;
+    ingredient: TIngredient;
+    unit_measure: string;
+    quantity: number
 }
