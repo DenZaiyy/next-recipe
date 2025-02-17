@@ -1,12 +1,3 @@
-interface TUser {
-    id: string;
-    username: string;
-    email: string;
-    password: string;
-    createdAt: Date;
-    updatedAt?: Date;
-}
-
 interface TIngredient {
     id: string
     name: string;
@@ -22,8 +13,8 @@ interface TStep {
 interface TComment {
     id: string;
     content: string;
-    //user: TUser;
     userId: string
+    userName: string
     createdAt: Date;
     recipe: TRecipe;
 }
