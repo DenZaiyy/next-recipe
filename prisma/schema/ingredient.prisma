@@ -1,6 +1,6 @@
 model Ingredient {
   id               String             @id @default(auto()) @map("_id") @db.ObjectId
   name             String
-  unit_measure     String
+  image            String
   IngredientRecipe IngredientRecipe[]
 }

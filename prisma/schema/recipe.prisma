@@ -6,6 +6,8 @@ model Recipe {
   duration     Int
   difficulty   Int
   slug         String             @unique
+  isVegan      Boolean            @default(false)
+  isHealthy    Boolean            @default(false)
   createdAt    DateTime           @default(now())
   updatedAt    DateTime           @updatedAt
   category     Category           @relation(fields: [categoryId], references: [id])
@@ -14,5 +16,4 @@ model Recipe {
   steps        Step[]
   tools        ToolRecipe[]
   ingredients  IngredientRecipe[]
-  tags         TagRecipe[]
 }
