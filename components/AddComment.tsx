@@ -26,7 +26,7 @@ export const AddComment: React.FC<TAddCommentProps> = ({ action }) => {
 			const data = await response.json()
 			setMessage(data.message)
 		} catch (err) {
-			setMessage("Error: " + err.message)
+			setMessage(`Error: ${err.message}`)
 		}
 	}
 
