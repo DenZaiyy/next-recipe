@@ -81,7 +81,7 @@ export const Navbar = () => {
 							Recipes
 						</Link>
 						<Link
-							href="search"
+							href="/search"
 							className={`${
 								activeLink === "/search" ||
 								pathname.startsWith("/search/")
