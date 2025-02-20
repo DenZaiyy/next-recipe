@@ -10,6 +10,19 @@ interface TStep {
 	content: string
 }
 
+interface TArticle {
+	id: string
+	title: string
+	content: string
+	tags: TTagArticle[]
+	image?: string
+	slug: string
+	userId: string
+	createdAt: Date
+	updatedAt?: Date
+	comments?: TComment[]
+}
+
 interface TComment {
 	id: string
 	content: string
@@ -17,6 +30,7 @@ interface TComment {
 	userName: string
 	createdAt: Date
 	recipe: TRecipe
+	article: TArticle
 }
 
 interface TTag {
@@ -60,6 +74,12 @@ interface TRecipe {
 interface TTagRecipe {
 	id: string
 	recipe: TRecipe
+	tag: TTag
+}
+
+interface TTagArticle {
+	id: string
+	article: TArticle
 	tag: TTag
 }
 

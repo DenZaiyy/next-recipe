@@ -1,0 +1,15 @@
+model Article {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  slug      String  @unique
+  content   String
+  image     String?
+  userId    String
+  published Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  upatedAt  DateTime @updatedAt
+
+  comments Comment[]
+  tags     TagArticle[]
+}
