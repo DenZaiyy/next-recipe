@@ -26,6 +26,7 @@ import "swiper/css/bundle"
 import { fetchSuggest } from "@/hooks/recipe/fetchSuggest"
 import { RecipeCard } from "@/components/RecipeCard"
 import { useUser } from "@clerk/nextjs"
+import { AddComment } from "@/components/AddComment" //import {RecipeCard} from "@/components/RecipeCard";
 
 //import {RecipeCard} from "@/components/RecipeCard";
 
@@ -335,9 +336,11 @@ const RecipeDetail = ({ params }: TRecipeProps) => {
 					{recipe?.comments.length > 0 && (
 						<div>
 							<h2>
-								<MessageSquareQuote /> Comments{" "}
-								{recipe?.comments &&
-									`(${recipe?.comments.length})`}
+								<MessageSquareQuote /> Comments
+								<small>
+									{recipe?.comments &&
+										`(${recipe?.comments.length})`}
+								</small>
 							</h2>
 							<div className={"flex flex-col gap-2"}>
 								{recipe?.comments.map((comment) => (
@@ -351,23 +354,9 @@ const RecipeDetail = ({ params }: TRecipeProps) => {
 					)}
 					{/*TODO: Update for connected user */}
 					{(user || isSignedIn) && (
-						<div>
-							<h2>
-								<MessageSquareQuote /> Add a comment
-							</h2>
-							<form action="">
-								<div className="flex gap-4">
-									<textarea
-										className="border border-slate-600/50 bg-header text-foreground focus:outline-none rounded-md w-full p-2"
-										draggable={false}
-										placeholder="Write your comment here..."
-									/>
-									<button className="text-foreground text-sm font-medium rounded-md bg-secondary px-4 py-2">
-										Publish
-									</button>
-								</div>
-							</form>
-						</div>
+						<AddComment
+							action={`/api/recipe/${recipe?.slug}/comment`}
+						/>
 					)}
 				</div>
 			)}
