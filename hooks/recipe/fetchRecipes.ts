@@ -1,12 +1,11 @@
-import {redirect} from "next/navigation";
-
+import { redirect } from "next/navigation";
 
 export const fetchRecipes = async (): Promise<TRecipe[]> => {
-    const res = await fetch(`${process.env.BASE_URL}/api/recipe/`, {
-        cache: 'no-store'
-    })
+  const res = await fetch(`${process.env.BASE_URL}/api/recipe/`, {
+    cache: "no-store",
+  });
 
-    if(!res.ok) redirect('/recipe')
+  if (!res.ok) redirect("/recipe");
 
-    return res.json();
-}
+  return res.json();
+};

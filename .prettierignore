@@ -1,0 +1,8 @@
+# Ignore artifacts:
+.next
+coverage
+node_modules
+.clerk
+.idea
+.vscode
+*.mcd
