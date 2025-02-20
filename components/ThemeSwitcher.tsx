@@ -2,12 +2,17 @@ import { Moon, Sun } from "lucide-react"
 import { useEffect, useState } from "react"
 
 export const ThemeSwitcher = () => {
-	const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark")
+	const [theme, setTheme] = useState("dark")
 
 	useEffect(() => {
 		document.body.classList.toggle("dark", theme === "dark")
 		document.body.classList.toggle("light", theme === "light")
 	}, [theme])
+
+	useEffect(() => {
+		const data = localStorage.getItem("theme")
+		if (data) setTheme(data)
+	}, [])
 
 	const toggleTheme = () => {
 		setTheme(theme === "dark" ? "light" : "dark")
