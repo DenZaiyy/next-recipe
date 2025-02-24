@@ -1,5 +1,4 @@
 import { db } from "@/lib/db"
-import { redirect } from "next/dist/server/api-utils"
 import { NextResponse } from "next/server"
 import { z } from "zod"
 

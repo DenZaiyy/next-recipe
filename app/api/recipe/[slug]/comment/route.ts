@@ -1,15 +1,17 @@
 import { db } from "@/lib/db"
 import { NextResponse } from "next/server"
+import { z } from "zod"
 
 type TRecipeCommentProps = { params: Promise<{ slug: string }> }
 
 export async function POST(req: Request, { params }: TRecipeCommentProps) {
 	const { slug } = await params
 	const formData = await req.formData()
+	const schema = z.string()
 
-	const userId = formData.get("userId")?.toString()
-	const content = formData.get("content")?.toString()
-	const username = formData.get("username")?.toString()
+	const userId = schema.parse(formData.get("userId"))
+	const content = schema.parse(formData.get("content"))
+	const username = schema.parse(formData.get("username"))
 
 	if (!userId || !content || !username) {
 		return NextResponse.json(
@@ -37,7 +39,10 @@ export async function POST(req: Request, { params }: TRecipeCommentProps) {
 			},
 		})
 
-		return NextResponse.json({ comment }, { status: 201 })
+		return NextResponse.json(
+			{ comment, redirect: `/recipe/${slug}` },
+			{ status: 201 },
+		)
 	} catch (err) {
 		console.error("[ARTICLE_COMMENT_CREATE]", err)
 		return NextResponse.json(
