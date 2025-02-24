@@ -24,6 +24,9 @@ export const AddComment: React.FC<TAddCommentProps> = ({ action }) => {
 			})
 
 			const data = await response.json()
+			if (data.redirect) {
+				window.location.href = data.redirect
+			}
 			setMessage(data.message)
 		} catch (err) {
 			setMessage(`Error: ${err.message}`)
@@ -35,7 +38,12 @@ export const AddComment: React.FC<TAddCommentProps> = ({ action }) => {
 			<h2>
 				<MessageSquareQuote /> Add a comment
 			</h2>
-			<form onSubmit={handleSubmit} method="post">
+			<form
+				onSubmit={handleSubmit}
+				method="post"
+				className="flex flex-col gap-4"
+			>
+				{message && <p>{message}</p>}
 				<div className="flex gap-4">
 					<textarea
 						className="border border-slate-600/50 bg-header text-foreground focus:outline-none rounded-md w-full p-2"
@@ -66,7 +74,6 @@ export const AddComment: React.FC<TAddCommentProps> = ({ action }) => {
 					>
 						Publish
 					</button>
-					{message && <p>{message}</p>}
 				</div>
 			</form>
 		</div>
