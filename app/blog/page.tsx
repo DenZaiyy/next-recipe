@@ -1,8 +1,8 @@
-import { fetchArticles } from "@/hooks/blog/fetchArticles"
 import { Article } from "@/components/Article"
+import { apiBlogService } from "@/services/blogService"
 
 const BlogHome = async () => {
-	const articles = await fetchArticles()
+	const articles = await apiBlogService.getArticles()
 
 	return (
 		<div className={"px-8"}>

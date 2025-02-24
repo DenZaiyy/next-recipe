@@ -1,12 +1,12 @@
 "use client"
 
 import React, { use, useEffect, useState } from "react"
-import { fetchArticle } from "@/hooks/blog/fetchArticle"
 import { formatDate } from "@/lib/utils"
 import { MessageSquareQuote, NotebookText } from "lucide-react"
 import { Comment } from "@/components/Comment"
 import { AddComment } from "@/components/AddComment"
 import { useUser } from "@clerk/nextjs"
+import { apiBlogService } from "@/services/blogService"
 
 interface IArticleDetailProps {
 	params: Promise<{ slug: string }>
@@ -22,7 +22,7 @@ const ArticleDetail = ({ params }: IArticleDetailProps) => {
 	useEffect(() => {
 		const loadArticle = async () => {
 			try {
-				const data = await fetchArticle(slug)
+				const data = await apiBlogService.getArticle(slug)
 				setArticle(data)
 			} catch (error) {
 				console.error("[RECIPE DETAIL] ", error)
@@ -81,7 +81,7 @@ const ArticleDetail = ({ params }: IArticleDetailProps) => {
 					<div className="w-3/4 mx-auto">
 						{(user || isSignedIn) && (
 							<AddComment
-								action={`/api/blog/article/${article?.slug}/comment`}
+								action={`/api/blog/${article?.slug}/comment`}
 							/>
 						)}
 					</div>

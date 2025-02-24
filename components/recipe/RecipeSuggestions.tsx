@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { fetchSuggest } from "@/hooks/recipe/fetchSuggest"
 import { RecipeCard } from "@/components/RecipeCard"
 import { Lightbulb } from "lucide-react"
+import { apiRecipeService } from "@/services/recipeService"
 
 interface RecipeSuggestionsProps {
 	currentRecipe: TRecipe
@@ -15,7 +15,7 @@ export const RecipeSuggestions = ({
 	useEffect(() => {
 		const loadSuggestions = async () => {
 			try {
-				const data = await fetchSuggest(
+				const data = await apiRecipeService.getSuggestions(
 					currentRecipe.category.id,
 					currentRecipe.id,
 				)

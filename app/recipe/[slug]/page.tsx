@@ -1,13 +1,13 @@
 "use client"
 
 import React, { use, useEffect, useState } from "react"
-import { fetchRecipe } from "@/hooks/recipe/fetchRecipe"
 import { RecipeSuggestions } from "@/components/recipe/RecipeSuggestions"
 import { RecipeComments } from "@/components/recipe/RecipeComments"
 import { RecipeSteps } from "@/components/recipe/RecipeSteps"
 import { RecipeTabs } from "@/components/recipe/RecipeTabs"
 import { RecipeHeader } from "@/components/recipe/RecipeHeader"
 import { RecipeInstructions } from "@/components/recipe/RecipeInstructions"
+import { apiRecipeService } from "@/services/recipeService"
 
 interface TRecipeProps {
 	params: Promise<{ slug: string }>
@@ -21,7 +21,7 @@ const RecipeDetail = ({ params }: TRecipeProps) => {
 	useEffect(() => {
 		const loadRecipe = async () => {
 			try {
-				const data = await fetchRecipe(slug)
+				const data = await apiRecipeService.getRecipe(slug)
 				setRecipe(data)
 			} catch (error) {
 				console.error("[RECIPE DETAIL] ", error)

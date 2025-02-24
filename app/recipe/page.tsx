@@ -1,9 +1,9 @@
-import { fetchRecipes } from "@/hooks/recipe/fetchRecipes"
 import { RecipesSlider } from "@/components/RecipesSlider"
 import "./style.css"
+import { apiRecipeService } from "@/services/recipeService"
 
 const RecipePage = async () => {
-	const recipes = await fetchRecipes()
+	const recipes = await apiRecipeService.getRecipes()
 
 	return (
 		<>
