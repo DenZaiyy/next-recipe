@@ -159,6 +159,18 @@ export const Navbar = () => {
 				</Link>
 				<SignedIn>
 					<UserButton />
+					<Link
+						href="/meal"
+						className={`${
+							activeLink === "/meal" ||
+							pathname.startsWith("/meal/")
+								? "text-secondary hover:text-foreground"
+								: "text-white dark:text-foreground hover:text-secondary"
+						}
+                                duration-200 text-xl font-medium`}
+					>
+						Meal Planner
+					</Link>
 				</SignedIn>
 				<SignedOut>
 					<Link

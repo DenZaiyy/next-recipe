@@ -14,6 +14,7 @@ export default {
 				primary: "var(--primary)",
 				secondary: "var(--secondary)",
 				header: "var(--header)",
+				"header-text": "var(--header-text)",
 			},
 		},
 	},

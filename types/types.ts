@@ -10,6 +10,14 @@ interface TStep {
 	content: string
 }
 
+interface TUser {
+	id: string
+	email: string
+	image: string
+	username: string
+	createdAt: Date
+}
+
 interface TArticle {
 	id: string
 	title: string
@@ -17,7 +25,7 @@ interface TArticle {
 	tags: TTagArticle[]
 	image?: string
 	slug: string
-	userId: string
+	user: TUser
 	createdAt: Date
 	updatedAt?: Date
 	comments?: TComment[]
@@ -32,6 +40,14 @@ interface TComment {
 	recipe: TRecipe
 	article: TArticle
 }
+
+/* interface TRecipeComment extends TComment {
+	recipe: TRecipe
+}
+
+interface TArticleComment extends TComment {
+	article: TArticle
+} */
 
 interface TTag {
 	id: string
@@ -69,6 +85,33 @@ interface TRecipe {
 	steps: TStep[]
 	category: TCategory
 	comments?: TComment[]
+	mealPlan?: TMealPlan[]
+}
+
+interface TMealPlan {
+	id: string
+	userId: string
+	breakfasts?: TMealBreakfast[]
+	lunches?: TMealLunch[]
+	dinners?: TMealLunch[]
+	choseDate: Date
+	createdAt: Date
+	updatedAt?: Date
+}
+
+interface TMealBreakfast {
+	mealPlan: TMealPlan
+	recipes?: TRecipe
+}
+
+interface TMealLunch {
+	mealPlan: TMealPlan
+	recipes?: TRecipe
+}
+
+interface TMealDinner {
+	mealPlan: TMealPlan
+	recipes?: TRecipe
 }
 
 interface TTagRecipe {

@@ -29,7 +29,9 @@ export const AddComment: React.FC<TAddCommentProps> = ({ action }) => {
 			}
 			setMessage(data.message)
 		} catch (err) {
-			setMessage(`Error: ${err.message}`)
+			if (err instanceof Error) {
+				setMessage(`Error: ${err.message}`)
+			}
 		}
 	}
 
@@ -52,13 +54,13 @@ export const AddComment: React.FC<TAddCommentProps> = ({ action }) => {
 						name="content"
 						id="content"
 					/>
-					{user && (
+					{user && user.username && (
 						<div>
 							<input
 								type="hidden"
 								name="userId"
 								id="userId"
-								value={user?.id}
+								value={user.id}
 							/>
 							<input
 								type="hidden"
