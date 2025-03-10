@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Merriweather } from "next/font/google"
 import { ClerkProvider } from "@clerk/nextjs"
-import "./globals.css"
+import "../globals.css"
 import { Navbar } from "@/components/Navbar"
 import React from "react"
 
@@ -13,8 +13,8 @@ const merriweather = Merriweather({
 })
 
 export const metadata: Metadata = {
-	title: "Next Recipes",
-	description: "List of recipes with blog, comments and tags",
+	title: "Admin Panel",
+	description: "Panel d'administration pour Next Recipes",
 }
 
 export default function RootLayout({
