@@ -1,10 +1,10 @@
 model MealPlan {
-  id         String          @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String          @unique
-  breakfasts MealBreakfast[]
-  lunches    MealLunch[]
-  dinners    MealDinner[]
-  choseDate  DateTime
-  createdAt  DateTime        @default(now())
-  updatedAt  DateTime?       @updatedAt
+  id     String   @id @default(auto()) @map("_id") @db.ObjectId
+  date   DateTime
+  userId String   @unique
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  mealPlanRecipes MealPlanRecipe[]
 }

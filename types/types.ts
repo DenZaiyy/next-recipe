@@ -90,28 +90,18 @@ interface TRecipe {
 
 interface TMealPlan {
 	id: string
+	date: Date
 	userId: string
-	breakfasts?: TMealBreakfast[]
-	lunches?: TMealLunch[]
-	dinners?: TMealLunch[]
-	choseDate: Date
 	createdAt: Date
 	updatedAt?: Date
+	mealPlanRecipe: TMealPlanRecipe[]
 }
 
-interface TMealBreakfast {
+interface TMealPlanRecipe {
 	mealPlan: TMealPlan
-	recipes?: TRecipe
-}
-
-interface TMealLunch {
-	mealPlan: TMealPlan
-	recipes?: TRecipe
-}
-
-interface TMealDinner {
-	mealPlan: TMealPlan
-	recipes?: TRecipe
+	recipes: TRecipe
+	mealType: string
+	order: number
 }
 
 interface TTagRecipe {
