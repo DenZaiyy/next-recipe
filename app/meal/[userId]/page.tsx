@@ -40,6 +40,8 @@ const MyMealPlanner = () => {
 		}
 	}, [user])
 
+	//TODO: Create handleDelete function to delete meal plan
+
 	// Fonction pour formater la date
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString)
