@@ -11,13 +11,17 @@ export async function GET(req: NextRequest, { params }: TMealProps) {
 	try {
 		const meals = await db.mealPlan.findMany({
 			where: { userId: userId },
-			include: { mealPlanRecipes: { include: { recipe: true } } },
+			include: {
+				mealPlanRecipes: {
+					include: { recipe: { include: { category: true } } },
+				},
+			},
 		})
 
 		//console.log("[MEALPLAN DETAIL] ", meals)
 		return NextResponse.json(meals)
 	} catch (err) {
-		console.log("[MEALPLAN DETAIL] ", err)
+		if (err instanceof Error) console.log("[MEALPLAN DETAIL] ", err.message)
 		return new NextResponse("Internal Error", { status: 500 })
 	}
 }
