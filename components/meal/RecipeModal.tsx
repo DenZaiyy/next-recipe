@@ -5,7 +5,7 @@ import styles from "./modal.module.css"
 interface ISelectProps {
 	isOpen: boolean
 	onClose: () => void
-	onAddRecipes: (recipes: TRecipe[]) => void
+	onAddRecipes: (recipes: TRecipe[], mealType: string) => void
 	category: TCategory
 }
 
@@ -61,7 +61,8 @@ export const RecipeModal = ({
 	}
 
 	const handleSubmit = () => {
-		onAddRecipes(selectedRecipes)
+		// Passer les recettes sélectionnées et le type de repas au composant parent
+		onAddRecipes(selectedRecipes, category.name.toLowerCase())
 		onClose()
 	}
 
@@ -75,8 +76,8 @@ export const RecipeModal = ({
 						<h5 className="font-bold capitalize">Select recipes</h5>
 					</div>
 					<select
-						name={`recipes-${category.name.toLowerCase()}`}
-						id={`recipes-${category.name.toLowerCase()}`}
+						name={`recipes`}
+						id={`recipes`}
 						multiple
 						className={styles.modalSelect}
 						size={4}

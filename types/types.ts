@@ -94,12 +94,13 @@ interface TMealPlan {
 	userId: string
 	createdAt: Date
 	updatedAt?: Date
-	mealPlanRecipe: TMealPlanRecipe[]
+	mealPlanRecipes: TMealPlanRecipe[]
 }
 
 interface TMealPlanRecipe {
+	id: string
 	mealPlan: TMealPlan
-	recipes: TRecipe
+	recipe: TRecipe
 	mealType: string
 	order: number
 }

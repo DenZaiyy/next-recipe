@@ -9,12 +9,15 @@ export async function GET(req: NextRequest, { params }: TMealProps) {
 	const { userId } = await params
 
 	try {
-		const meals = await db.mealPlan.findMany({ where: { userId: userId } })
+		const meals = await db.mealPlan.findMany({
+			where: { userId: userId },
+			include: { mealPlanRecipes: { include: { recipe: true } } },
+		})
 
-		//console.log('[RECIPE DETAIL] ', recipe);
+		//console.log("[MEALPLAN DETAIL] ", meals)
 		return NextResponse.json(meals)
 	} catch (err) {
-		console.log("[RECIPE DETAIL] ", err)
+		console.log("[MEALPLAN DETAIL] ", err)
 		return new NextResponse("Internal Error", { status: 500 })
 	}
 }

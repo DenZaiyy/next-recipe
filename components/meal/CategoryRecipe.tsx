@@ -9,7 +9,9 @@ interface ICategoryRecipeProps {
 export const CategoryRecipe = ({ category }: ICategoryRecipeProps) => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 	const [selectedCategory, setSelectedCategory] = useState<TCategory>()
-	const [selectedRecipes, setSelectedRecipes] = useState<TRecipe[]>([])
+	const [mealPlanRecipes, setMealPlanRecipes] = useState<
+		{ mealType: string; order: number; recipe: TRecipe }[]
+	>([])
 
 	const handleOpenModal = (category: TCategory) => {
 		setSelectedCategory(category)
@@ -20,19 +22,57 @@ export const CategoryRecipe = ({ category }: ICategoryRecipeProps) => {
 		setIsModalOpen(false)
 	}
 
-	const handleAddRecipes = (recipes: TRecipe[]) => {
-		setSelectedRecipes((prev) => {
+	const handleAddRecipes = (recipes: TRecipe[], mealType: string) => {
+		setMealPlanRecipes((prev) => {
 			// Filtrer pour éviter les doublons
-			const existingIds = prev.map((r) => r.id)
-			const newRecipes = recipes.filter(
-				(r) => !existingIds.includes(r.id),
-			)
-			return [...prev, ...newRecipes]
+			const existingIds = prev
+				.filter((item) => item.mealType === mealType)
+				.map((item) => item.recipe.id)
+
+			// Déterminer l'ordre de départ pour les nouvelles recettes
+			const startOrder =
+				prev.filter((item) => item.mealType === mealType).length + 1
+
+			// Créer les nouveaux éléments
+			const newItems = recipes
+				.filter((recipe) => !existingIds.includes(recipe.id))
+				.map((recipe, index) => ({
+					mealType,
+					order: startOrder + index,
+					recipe,
+				}))
+
+			return [...prev, ...newItems]
 		})
 	}
 
-	const handleRemoveRecipe = (id: string) => {
-		setSelectedRecipes((prev) => prev.filter((r) => r.id !== id))
+	// Fonction pour supprimer une recette
+	const handleRemoveRecipe = (recipeId: string, mealType: string) => {
+		setMealPlanRecipes((prev) => {
+			// Supprimer la recette spécifique
+			const filteredItems = prev.filter(
+				(item) =>
+					!(
+						item.recipe.id === recipeId &&
+						item.mealType === mealType
+					),
+			)
+
+			// Réorganiser les ordres pour cette catégorie de repas
+			return filteredItems.map((item) => {
+				if (item.mealType === mealType) {
+					// Trouver le nouvel ordre pour cet élément
+					const newOrder = filteredItems.filter(
+						(i) =>
+							i.mealType === mealType &&
+							i.recipe.id <= item.recipe.id,
+					).length
+
+					return { ...item, order: newOrder }
+				}
+				return item
+			})
+		})
 	}
 
 	return (
@@ -49,36 +89,57 @@ export const CategoryRecipe = ({ category }: ICategoryRecipeProps) => {
 				</div>
 			</div>
 			<div className="mt-3">
-				{selectedRecipes.length > 0 ? (
+				{mealPlanRecipes.length > 0 ? (
 					<div className={"flex flex-col gap-2"}>
-						{selectedRecipes.map((recipe) => (
-							<label
-								htmlFor={`recipes-${category.name.toLowerCase()}`}
-								key={recipe.id}
-								className="bg-gray-500 p-2 flex justify-between items-center text-sm rounded-md"
-							>
-								{recipe.title}
-								<div
-									onClick={() =>
-										handleRemoveRecipe(recipe.id)
-									}
+						{mealPlanRecipes
+							.filter(
+								(item) =>
+									item.mealType ===
+									category.name.toLowerCase(),
+							)
+							.sort((a, b) => a.order - b.order)
+							.map((item) => (
+								<label
+									htmlFor={`recipe-${item.recipe.id}`}
+									key={item.recipe.id}
+									className="bg-gray-500 p-2 flex justify-between items-center text-sm rounded-md"
 								>
-									<Trash2
-										size={20}
-										strokeWidth={1.5}
-										stroke={"red"}
-										className={"cursor-pointer"}
+									{item.recipe.title}
+									<div
+										onClick={() =>
+											handleRemoveRecipe(
+												item.recipe.id,
+												item.mealType,
+											)
+										}
+									>
+										<Trash2
+											size={20}
+											strokeWidth={1.5}
+											stroke={"red"}
+											className={"cursor-pointer"}
+										/>
+									</div>
+									<input
+										type="hidden"
+										name="mealPlanRecipes[][order]"
+										value={item.order}
+										readOnly={true}
 									/>
-								</div>
-								<input
-									type="hidden"
-									name={`recipes-${category.name.toLowerCase()}`}
-									id={`recipes-${category.name.toLowerCase()}`}
-									value={recipe.slug}
-									readOnly={true}
-								/>
-							</label>
-						))}
+									<input
+										type="hidden"
+										name="mealPlanRecipes[][mealType]"
+										value={item.mealType}
+										readOnly={true}
+									/>
+									<input
+										type="hidden"
+										name="mealPlanRecipes[][recipeId]"
+										value={item.recipe.id}
+										readOnly={true}
+									/>
+								</label>
+							))}
 					</div>
 				) : (
 					<p className="text-xs text-gray-400">

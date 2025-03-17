@@ -1,22 +1,16 @@
-import { NextResponse } from "next/server"
-import { z } from "zod"
+import { getAuth } from "@clerk/nextjs/server"
+import { NextRequest, NextResponse } from "next/server"
+import { db } from "@/lib/db"
 
-export async function POST(req: Request) {
-	const formData = await req.formData()
-	const zString = z.string()
-	const zDate = z.string().date()
-	const zStringArr = z.array(z.string())
+interface IMealPlanRecipes {
+	mealType: string
+	order: number
+	recipeId: string
+}
 
-	// TODO: complete validation of form and error handling if needed
-
-	const userId = zString.parse(formData.get("userId"))
-	const date = zDate.parse(formData.get("date"))
-	const breakfastRecipes = zStringArr.parse(
-		formData.getAll("recipes-breakfast"),
-	)
-	const lunchRecipes = zStringArr.parse(formData.getAll("recipes-lunch"))
-
-	const dinnerRecipes = zStringArr.parse(formData.getAll("recipes-dinner"))
+export async function POST(req: NextRequest) {
+	const { userId } = getAuth(req)
+	const { date, mealPlanRecipes } = await req.json()
 
 	if (!userId || !date) {
 		return NextResponse.json(
@@ -25,18 +19,35 @@ export async function POST(req: Request) {
 		)
 	}
 
-	/*try {
-        const breakfastRecipes = await db.recipe.findMany({ where: { slug } })
+	try {
+		// D'abord, créer le MealPlan
+		const mealPlan = await db.mealPlan.create({
+			data: { date: new Date(date), userId: userId },
+		})
 
-        return NextResponse.json(
-            { comment, redirect: `/meal/user/${userId}` },
-            { status: 201 },
-        )
-    } catch (err) {
-        console.error("[MEALPLAN_CREATE] ", err)
-        return NextResponse.json(
-            { error: "Internal server error" },
-            { status: 500 },
-        )
-    }*/
+		// Ensuite, créer les MealPlanRecipe associés
+		if (mealPlanRecipes && mealPlanRecipes.length > 0) {
+			await db.mealPlanRecipe.createMany({
+				data: mealPlanRecipes.map((recipe: IMealPlanRecipes) => ({
+					mealPlanId: mealPlan.id,
+					recipeId: recipe.recipeId,
+					mealType: recipe.mealType,
+					order: recipe.order,
+				})),
+			})
+		}
+
+		return NextResponse.json(
+			{ mealPlan, redirect: `/meal/user/${userId}` },
+			{ status: 201 },
+		)
+	} catch (err) {
+		if (err instanceof Error) {
+			console.error("[MEALPLAN_CREATE] ", err.message)
+		}
+		return NextResponse.json(
+			{ error: "Internal server error" },
+			{ status: 500 },
+		)
+	}
 }

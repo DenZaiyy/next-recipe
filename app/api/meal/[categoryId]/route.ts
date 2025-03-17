@@ -14,7 +14,7 @@ export async function GET(req: NextRequest, { params }: TMealProps) {
 			include: { category: true },
 		})
 
-		//console.log('[MEAL CATEGORY] ', recipe);
+		//console.log("[MEAL CATEGORY] ", meals)
 		return NextResponse.json(meals)
 	} catch (err) {
 		console.log("[MEAL CATEGORY] ", err)

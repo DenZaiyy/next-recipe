@@ -6,14 +6,17 @@ import { useEffect, useState } from "react"
 import { apiMealService } from "@/services/mealService"
 import { CategoryRecipe } from "@/components/meal/CategoryRecipe"
 
+interface IMealPlanRecipes {
+	mealType: string
+	order: number
+	recipeId: string
+}
+
 const MealPlanner = () => {
 	const { user, isSignedIn } = useUser()
 	const [message, setMessage] = useState("")
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [categories, setCategories] = useState<TCategory[]>([])
-	const [breakfastRecipes, setBreakfastRecipes] = useState<TRecipe[]>([])
-	const [lunchRecipes, setLunchRecipes] = useState<TRecipe[]>([])
-	const [dinnerRecipes, setDinnerRecipes] = useState<TRecipe[]>([])
 
 	useEffect(() => {
 		const fetchCategories = async () => {
@@ -36,11 +39,31 @@ const MealPlanner = () => {
 		e.preventDefault()
 
 		const formData = new FormData(e.currentTarget)
+		const date = formData.get("date")
+
+		// Récupérer tous les champs mealPlanRecipes
+		const orders = formData.getAll("mealPlanRecipes[][order]")
+		const mealTypes = formData.getAll("mealPlanRecipes[][mealType]")
+		const recipeIds = formData.getAll("mealPlanRecipes[][recipeId]")
+
+		// Construire le tableau de mealPlanRecipes
+		const mealPlanRecipes: IMealPlanRecipes[] = []
+		for (let i = 0; i < recipeIds.length; i++) {
+			mealPlanRecipes.push({
+				mealType: mealTypes[i].toString(),
+				order: parseInt(orders[i].toString()),
+				recipeId: recipeIds[i].toString(),
+			})
+		}
+
+		console.log("Date:", date)
+		console.log("Meal Plan Recipes:", mealPlanRecipes)
 
 		try {
 			const response = await fetch(`/api/meal`, {
 				method: "POST",
-				body: formData,
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ date, mealPlanRecipes }),
 			})
 
 			const data = await response.json()
@@ -103,11 +126,6 @@ const MealPlanner = () => {
 										))
 									: ""}
 						</div>
-						<input
-							type="hidden"
-							name="userId"
-							value={user?.id ?? ""}
-						/>
 						<button
 							type="submit"
 							className="px-4 py-2 bg-green-600 text-white text-md rounded-md w-max capitalize"
