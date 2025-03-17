@@ -38,6 +38,10 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
+h1 {
+	@apply text-4xl text-foreground font-bold mb-4 capitalize;
+}
+
 h2 {
 	@apply text-xl font-bold mb-4 text-secondary flex gap-4 items-center;
 }
