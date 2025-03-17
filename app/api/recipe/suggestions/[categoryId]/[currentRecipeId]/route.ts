@@ -38,7 +38,7 @@ export async function GET(req: NextRequest, { params }: TSuggestProps) {
 			include: { category: true },
 		})
 
-		console.log("[SUGGESTIONS] ", suggestions)
+		//console.log("[SUGGESTIONS] ", suggestions)
 		return NextResponse.json(suggestions)
 	} catch (err) {
 		console.log("[SUGGESTIONS] ", err)
