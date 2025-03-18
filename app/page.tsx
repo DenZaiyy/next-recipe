@@ -7,7 +7,7 @@ export default function Home() {
 	console.log(user)
 
 	return (
-		<div className="min-h-screen flex flex-col items-center justify-center">
+		<div className="min-h-[80vh] flex flex-col items-center justify-center">
 			<h1 className="text-4xl mb-4 text-foreground font-bold">
 				MyRecipes
 			</h1>
