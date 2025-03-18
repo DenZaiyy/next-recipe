@@ -81,18 +81,6 @@ export const Navbar = () => {
 							Recipes
 						</Link>
 						<Link
-							href="/search"
-							className={`${
-								activeLink === "/search" ||
-								pathname.startsWith("/search/")
-									? "text-secondary hover:text-foreground"
-									: "text-white dark:text-foreground hover:text-secondary"
-							} duration-200 text-xl font-medium`}
-							onClick={() => handleLinkClick("/search")}
-						>
-							Search
-						</Link>
-						<Link
 							href="/blog"
 							className={`${
 								activeLink === "/blog" ||
@@ -135,17 +123,6 @@ export const Navbar = () => {
 					} duration-200 text-xl font-medium`}
 				>
 					Recipes
-				</Link>
-				<Link
-					href="/search"
-					className={`${
-						activeLink === "/search" ||
-						pathname.startsWith("/search/")
-							? "text-secondary hover:text-foreground"
-							: "text-white dark:text-foreground hover:text-secondary"
-					} duration-200 text-xl font-medium`}
-				>
-					Search
 				</Link>
 				<Link
 					href="/blog"

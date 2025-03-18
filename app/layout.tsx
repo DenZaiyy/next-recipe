@@ -30,7 +30,7 @@ export default function RootLayout({
 						<Navbar />
 					</header>
 					<main className="p-2 md:p-4">
-						<Toaster position={"top-right"} />
+						<Toaster position={"bottom-right"} />
 						{children}
 					</main>
 				</body>
