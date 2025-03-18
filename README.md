@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next Recipes
 
-## Getting Started
+Une application web de recettes construite avec Next.js, permettant aux utilisateurs de gérer et partager leurs recettes préférées ainsi que d'orgnaniser leur plan de recettes.
 
-First, run the development server:
+## Fonctionnalités
+
+- 🔐 **Authentification** via Clerk
+- 🎨 **Thème personnalisable**
+- 📝 **Blog** avec système d'articles
+- 📅 **Planificateur de recettes** pour organiser les repas
+- 💬 **Commentaires** sur les recettes / blog
+- ⚡ **CRUD** complet pour les recettes
+- 🔍 **Suggestions** de recettes similaires
+
+## Technologies Utilisées
+
+### Frontend
+- [Next.js](https://nextjs.org/) - Framework React
+- [TypeScript](https://www.typescriptlang.org/) - Typage statique
+- [TailwindCSS](https://tailwindcss.com/) - Styling
+- [Clerk](https://clerk.dev/) - Authentification
+- [React Hot Toast](https://react-hot-toast.com/) - Notifications
+- [Headless UI](https://headlessui.dev/) - Composants UI accessibles
+- [Lucide Icons](https://lucide.dev/) - Icônes
+- [React Swiper](https://swiperjs.com/react) - Carrousels
+- [date-fns](https://date-fns.org/) - Manipulation de dates
+
+### Backend
+- [Prisma](https://www.prisma.io/) - ORM
+- [Zod](https://zod.dev/) - Validation de schémas
+
+## Services
+
+L'application dispose des services suivants :
+
+### Service de Recettes
+- Récupération de toutes les recettes
+- Récupération d'une recette par slug
+- Suggestions de recettes similaires par catégorie
+
+## Installation
 
 ```bash
+# Cloner le repository
+git clone https://github.com/DenZaiyy/next-recipe.git
+
+# Installer les dépendances
+npm install
+
+# Configurer les variables d'environnement
+cp .env.example .env.local
+
+# Lancer le serveur de développement
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
