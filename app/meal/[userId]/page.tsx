@@ -12,6 +12,7 @@ import {
 	Trash2,
 	Utensils,
 } from "lucide-react"
+import toast from "react-hot-toast"
 
 const MyMealPlanner = () => {
 	const { user, isSignedIn } = useUser()
@@ -54,7 +55,9 @@ const MyMealPlanner = () => {
 			setMealPlans((prevMealPlans) =>
 				prevMealPlans.filter((mealPlan) => mealPlan.id !== mealPlanId),
 			)
+			toast.success("Meal plan deleted successfully")
 		} catch (err) {
+			toast.error("Failed to delete meal plan")
 			if (err instanceof Error) console.log(err.message)
 		}
 	}
@@ -82,7 +85,9 @@ const MyMealPlanner = () => {
 			setMealPlans((prevMealPlans) =>
 				prevMealPlans.filter((mealPlan) => mealPlan.id !== mealPlanId),
 			)
+			toast.success("Meal plan recipe deleted successfully")
 		} catch (err) {
+			toast.error("Failed to delete meal plan recipe")
 			if (err instanceof Error) console.log(err.message)
 		}
 	}

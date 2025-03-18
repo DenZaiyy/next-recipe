@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { apiMealService } from "@/services/mealService"
 import { CategoryRecipe } from "@/components/meal/CategoryRecipe"
+import toast from "react-hot-toast"
 
 interface IMealPlanRecipes {
 	mealType: string
@@ -76,8 +77,12 @@ const MealPlanner = () => {
 			const data = await response.json()
 			setMessage(data.message)
 
+			toast.success(`Meal Plan created successfully`)
+
 			if (data.redirect) {
-				window.location.href = data.redirect
+				setTimeout(() => {
+					window.location.href = data.redirect
+				}, 2000)
 			}
 		} catch (err) {
 			if (err instanceof Error) setMessage(`Error: ${err.message}`)
