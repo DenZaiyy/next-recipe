@@ -15,6 +15,7 @@ Une application web de recettes construite avec Next.js, permettant aux utilisat
 ## Technologies Utilisées
 
 ### Frontend
+
 - [Next.js](https://nextjs.org/) - Framework React
 - [TypeScript](https://www.typescriptlang.org/) - Typage statique
 - [TailwindCSS](https://tailwindcss.com/) - Styling
@@ -26,6 +27,7 @@ Une application web de recettes construite avec Next.js, permettant aux utilisat
 - [date-fns](https://date-fns.org/) - Manipulation de dates
 
 ### Backend
+
 - [Prisma](https://www.prisma.io/) - ORM
 - [Zod](https://zod.dev/) - Validation de schémas
 
@@ -34,6 +36,7 @@ Une application web de recettes construite avec Next.js, permettant aux utilisat
 L'application dispose des services suivants :
 
 ### Service de Recettes
+
 - Récupération de toutes les recettes
 - Récupération d'une recette par slug
 - Suggestions de recettes similaires par catégorie
