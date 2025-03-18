@@ -119,10 +119,15 @@ const MyMealPlanner = () => {
 			) : (
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 					{mealPlans.map((mealPlan) => {
+						type MealPlanRecipeType =
+							(typeof mealPlan.mealPlanRecipes)[0]
 						// Regrouper les recettes par type de repas
-						const mealTypeGroups: Record<string, any[]> = {}
+						const mealTypeGroups: Record<
+							string,
+							MealPlanRecipeType[]
+						> = {}
 
-						mealPlan.mealPlanRecipes.flatMap((recipe) => {
+						mealPlan.mealPlanRecipes.forEach((recipe) => {
 							const mealType = recipe.mealType.toLowerCase()
 							if (!mealTypeGroups[mealType]) {
 								mealTypeGroups[mealType] = []
