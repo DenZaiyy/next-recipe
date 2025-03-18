@@ -19,10 +19,11 @@ export async function GET(req: NextRequest, { params }: TMealProps) {
 			orderBy: { date: "asc" },
 		})
 
-		//console.log("[MEALPLAN DETAIL] ", meals)
+		//console.log("[MEAL_PLAN DETAIL] ", meals)
 		return NextResponse.json(meals)
 	} catch (err) {
-		if (err instanceof Error) console.log("[MEALPLAN DETAIL] ", err.message)
+		if (err instanceof Error)
+			console.log("[MEAL_PLAN_DETAIL] ", err.message)
 		return new NextResponse("Internal Error", { status: 500 })
 	}
 }

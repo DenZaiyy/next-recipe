@@ -5,7 +5,7 @@ import "../globals.css"
 import { Navbar } from "@/components/Navbar"
 import React from "react"
 
-const merriweather = Merriweather({
+const merriWeather = Merriweather({
 	weight: ["300", "400", "700", "900"],
 	style: ["normal", "italic"],
 	subsets: ["latin"],
@@ -23,7 +23,7 @@ export default function RootLayout({
 	return (
 		<ClerkProvider>
 			<html lang="en">
-				<body className={`${merriweather.className} antialiased`}>
+				<body className={`${merriWeather.className} antialiased`}>
 					<header>
 						<Navbar />
 					</header>

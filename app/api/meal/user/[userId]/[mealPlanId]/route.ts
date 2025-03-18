@@ -12,15 +12,15 @@ export async function DELETE(req: NextRequest, { params }: TMealPlanIdProps) {
 
 	try {
 		// check if comment are create by connected user before deleting
-		const mealplan = await db.mealPlan.findUnique({
+		const mealPlan = await db.mealPlan.findUnique({
 			where: { id: mealPlanId },
 		})
 
-		if (!mealplan) {
+		if (!mealPlan) {
 			return new NextResponse("MealPlan not found", { status: 404 })
 		}
 
-		if (mealplan.userId !== userId) {
+		if (mealPlan.userId !== userId) {
 			return new NextResponse("Unauthorized", { status: 401 })
 		}
 
@@ -28,7 +28,8 @@ export async function DELETE(req: NextRequest, { params }: TMealPlanIdProps) {
 
 		return new NextResponse("Comment deleted successfully", { status: 200 })
 	} catch (err) {
-		if (err instanceof Error) console.log("[MEALPLAN DELETE] ", err.message)
+		if (err instanceof Error)
+			console.log("[MEAL_PLAN_DELETE] ", err.message)
 		return new NextResponse("Internal Error", { status: 500 })
 	}
 }

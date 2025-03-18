@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
 		)
 	} catch (err) {
 		if (err instanceof Error) {
-			console.error("[MEALPLAN_CREATE] ", err.message)
+			console.error("[MEAL_PLAN_CREATE] ", err.message)
 		}
 		return NextResponse.json(
 			{ error: "Internal server error" },

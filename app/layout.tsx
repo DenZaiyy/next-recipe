@@ -7,7 +7,7 @@ import React from "react"
 import { Toaster } from "react-hot-toast"
 import { frFR } from "@clerk/localizations"
 
-const merriweather = Merriweather({
+const merriWeather = Merriweather({
 	weight: ["300", "400", "700", "900"],
 	style: ["normal", "italic"],
 	subsets: ["latin"],
@@ -25,7 +25,7 @@ export default function RootLayout({
 	return (
 		<ClerkProvider localization={frFR}>
 			<html lang="en">
-				<body className={`${merriweather.className} antialiased`}>
+				<body className={`${merriWeather.className} antialiased`}>
 					<header>
 						<Navbar />
 					</header>
