@@ -16,6 +16,7 @@ export async function GET(req: NextRequest, { params }: TMealProps) {
 					include: { recipe: { include: { category: true } } },
 				},
 			},
+			orderBy: { date: "asc" },
 		})
 
 		//console.log("[MEALPLAN DETAIL] ", meals)

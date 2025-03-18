@@ -32,6 +32,10 @@
 	--header: #161a26;
 }
 
+input[type="date"]#date::-webkit-calendar-picker-indicator {
+	filter: invert(1);
+}
+
 body {
 	color: var(--foreground);
 	background: var(--background);

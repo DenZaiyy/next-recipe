@@ -41,6 +41,11 @@ const MealPlanner = () => {
 		const formData = new FormData(e.currentTarget)
 		const date = formData.get("date")
 
+		if (!date) {
+			setMessage("Please select a date")
+			return
+		}
+
 		// Récupérer tous les champs mealPlanRecipes
 		const orders = formData.getAll("mealPlanRecipes[][order]")
 		const mealTypes = formData.getAll("mealPlanRecipes[][mealType]")
@@ -56,8 +61,10 @@ const MealPlanner = () => {
 			})
 		}
 
-		console.log("Date:", date)
-		console.log("Meal Plan Recipes:", mealPlanRecipes)
+		if (mealPlanRecipes.length === 0) {
+			setMessage("Please select at least one recipe")
+			return
+		}
 
 		try {
 			const response = await fetch(`/api/meal`, {
@@ -68,6 +75,10 @@ const MealPlanner = () => {
 
 			const data = await response.json()
 			setMessage(data.message)
+
+			if (data.redirect) {
+				window.location.href = data.redirect
+			}
 		} catch (err) {
 			if (err instanceof Error) setMessage(`Error: ${err.message}`)
 		}
@@ -111,7 +122,7 @@ const MealPlanner = () => {
 								name="date"
 								id="date"
 								required
-								className="border border-foreground p-1 rounded-md text-header w-max"
+								className="border border-foreground p-1 rounded-md text-foreground w-max bg-background"
 							/>
 						</div>
 						<div className="flex gap-3">

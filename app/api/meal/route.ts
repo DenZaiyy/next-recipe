@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 		}
 
 		return NextResponse.json(
-			{ mealPlan, redirect: `/meal/user/${userId}` },
+			{ mealPlan, redirect: `/meal/${userId}` },
 			{ status: 201 },
 		)
 	} catch (err) {

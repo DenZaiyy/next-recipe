@@ -14,7 +14,7 @@ import {
 } from "lucide-react"
 
 const MyMealPlanner = () => {
-	const { user } = useUser()
+	const { user, isSignedIn } = useUser()
 
 	const [mealPlans, setMealPlans] = useState<TMealPlan[]>([])
 	const [isLoading, setIsLoading] = useState(false)
@@ -25,7 +25,6 @@ const MyMealPlanner = () => {
 			try {
 				setIsLoading(true)
 				const data = await apiMealService.getMealPlanByUser(userId)
-				console.log(data)
 
 				if (data) setMealPlans(data)
 			} catch (err) {
@@ -40,7 +39,53 @@ const MyMealPlanner = () => {
 		}
 	}, [user])
 
-	//TODO: Create handleDelete function to delete meal plan
+	const handleDeleteMealPlan = async (userId: string, mealPlanId: string) => {
+		const isConfirmed = confirm(
+			"Êtes-vous sûr de vouloir supprimer cet élément ?",
+		)
+
+		if (!isConfirmed) return
+
+		try {
+			if (!userId) {
+				return
+			}
+			await apiMealService.deleteMealPlan(userId, mealPlanId)
+			setMealPlans((prevMealPlans) =>
+				prevMealPlans.filter((mealPlan) => mealPlan.id !== mealPlanId),
+			)
+		} catch (err) {
+			if (err instanceof Error) console.log(err.message)
+		}
+	}
+
+	const handleDeleteMealPlanRecipe = async (
+		userId: string,
+		mealPlanId: string,
+		mealPlanRecipeId: string,
+	) => {
+		const isConfirmed = confirm(
+			"Êtes-vous sûr de vouloir supprimer cet élément ?",
+		)
+
+		if (!isConfirmed) return
+
+		try {
+			if (!userId) {
+				return
+			}
+			await apiMealService.deleteMealPlanRecipe(
+				userId,
+				mealPlanId,
+				mealPlanRecipeId,
+			)
+			setMealPlans((prevMealPlans) =>
+				prevMealPlans.filter((mealPlan) => mealPlan.id !== mealPlanId),
+			)
+		} catch (err) {
+			if (err instanceof Error) console.log(err.message)
+		}
+	}
 
 	// Fonction pour formater la date
 	const formatDate = (dateString: string) => {
@@ -67,7 +112,7 @@ const MyMealPlanner = () => {
 	}
 
 	return (
-		<div className="p-8">
+		<div className="lg:p-8">
 			<h1 className="text-2xl font-bold mb-6">Your Meal Plans</h1>
 			{isLoading ? (
 				<p>Loading...</p>
@@ -77,7 +122,7 @@ const MyMealPlanner = () => {
 						// Regrouper les recettes par type de repas
 						const mealTypeGroups: Record<string, any[]> = {}
 
-						mealPlan.mealPlanRecipes.map((recipe) => {
+						mealPlan.mealPlanRecipes.flatMap((recipe) => {
 							const mealType = recipe.mealType.toLowerCase()
 							if (!mealTypeGroups[mealType]) {
 								mealTypeGroups[mealType] = []
@@ -90,12 +135,24 @@ const MyMealPlanner = () => {
 								key={mealPlan.id}
 								className="flex flex-col p-4 bg-header rounded-lg relative border border-header overflow-hidden"
 							>
-								<div className="absolute top-0 right-0 p-2 bg-background cursor-pointer">
-									<Trash2
-										size={18}
-										className="text-red-600"
-									/>
-								</div>
+								{(user || isSignedIn) &&
+									user.id === mealPlan.userId && (
+										<div
+											className="absolute top-0 right-0 p-2 bg-background cursor-pointer"
+											onClick={() =>
+												handleDeleteMealPlan(
+													user.id,
+													mealPlan.id,
+												)
+											}
+										>
+											<Trash2
+												size={18}
+												className="text-red-600"
+											/>
+										</div>
+									)}
+
 								<h2 className="text-foreground text-lg font-semibold mb-4">
 									{formatDate(mealPlan.date.toString())}
 								</h2>
@@ -116,49 +173,76 @@ const MyMealPlanner = () => {
 															a.order - b.order,
 													)
 													.map((recipe) => (
-														<a
-															href={`/recipe/${recipe.recipe.slug}`}
+														<div
 															key={recipe.id}
-															className="rounded-lg flex justify-between p-2 bg-background items-center"
+															className="relative group"
 														>
-															<div>
-																<h3 className="font-medium">
-																	{
+															{(user ||
+																isSignedIn) &&
+																user.id ===
+																	mealPlan.userId && (
+																	<div
+																		className="absolute -z-10 top-0 right-0 p-2 rounded-lg bg-background cursor-pointer group-hover:z-10 opacity-0 group-hover:opacity-100 transition-all duration-300"
+																		onClick={() =>
+																			handleDeleteMealPlanRecipe(
+																				user.id,
+																				mealPlan.id,
+																				recipe.id,
+																			)
+																		}
+																	>
+																		<Trash2
+																			size={
+																				18
+																			}
+																			className="text-red-600"
+																		/>
+																	</div>
+																)}
+
+															<a
+																href={`/recipe/${recipe.recipe.slug}`}
+																className="rounded-lg flex justify-between p-2 bg-background items-center overflow-hidden"
+															>
+																<div>
+																	<h3 className="font-medium">
+																		{
+																			recipe
+																				.recipe
+																				.title
+																		}
+																	</h3>
+																	<p className="flex gap-1 items-center text-sm text-gray-400">
+																		<Clock9
+																			size={
+																				16
+																			}
+																		/>
+																		{
+																			recipe
+																				.recipe
+																				.duration
+																		}{" "}
+																		mins
+																	</p>
+																</div>
+																<Image
+																	src={
+																		recipe
+																			.recipe
+																			.image
+																	}
+																	alt={
 																		recipe
 																			.recipe
 																			.title
 																	}
-																</h3>
-																<p className="flex gap-1 items-center text-sm text-gray-400">
-																	<Clock9
-																		size={
-																			16
-																		}
-																	/>
-																	{
-																		recipe
-																			.recipe
-																			.duration
-																	}{" "}
-																	mins
-																</p>
-															</div>
-															<Image
-																src={
-																	recipe
-																		.recipe
-																		.image
-																}
-																alt={
-																	recipe
-																		.recipe
-																		.title
-																}
-																width={50}
-																height={50}
-																className="h-full w-full max-w-[80px] rounded-md shadow-md object-cover"
-															/>
-														</a>
+																	width={50}
+																	height={50}
+																	className="h-full w-full max-w-[80px] rounded-md shadow-md object-cover"
+																/>
+															</a>
+														</div>
 													))}
 											</div>
 										</div>

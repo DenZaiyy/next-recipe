@@ -4,6 +4,12 @@ export interface MealService {
 	getRecipes: (categoryId: string) => Promise<TRecipe[]>
 	getCategories: () => Promise<TCategory[]>
 	getMealPlanByUser: (userId: string) => Promise<TMealPlan[]>
+	deleteMealPlan: (userId: string, mealPlanId: string) => Promise<void>
+	deleteMealPlanRecipe: (
+		userId: string,
+		mealPlanId: string,
+		recipeId: string,
+	) => Promise<void>
 }
 
 export const apiMealService: MealService = {
@@ -28,8 +34,35 @@ export const apiMealService: MealService = {
 			cache: "no-store",
 		})
 
-		if (!res.ok) redirect("/meal")
+		if (!res.ok) redirect(`/meal/${userId}`)
 
 		return res.json()
+	},
+	deleteMealPlan: async (
+		userId: string,
+		mealPlanId: string,
+	): Promise<void> => {
+		const res = await fetch(`/api/meal/user/${userId}/${mealPlanId}`, {
+			method: "DELETE",
+			cache: "no-store",
+		})
+
+		if (!res.ok) redirect("/meal")
+
+		return
+	},
+	deleteMealPlanRecipe: async (
+		userId: string,
+		mealPlanId: string,
+		mealPlanRecipeId: string,
+	): Promise<void> => {
+		const res = await fetch(
+			`/api/meal/user/${userId}/${mealPlanId}/${mealPlanRecipeId}`,
+			{ method: "DELETE", cache: "no-store" },
+		)
+
+		if (!res.ok) redirect("/meal")
+
+		return
 	},
 }

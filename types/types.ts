@@ -130,3 +130,9 @@ interface TIngredientRecipe {
 	unit_measure: string
 	quantity: number
 }
+
+interface IMealPlanRecipes {
+	mealType: string
+	order: number
+	recipeId: string
+}
