@@ -39,7 +39,7 @@ export async function DELETE(
 		})
 	} catch (err) {
 		if (err instanceof Error)
-			console.log("[MEALPLAN_RECIPE DELETE] ", err.message)
+			console.log("[MEAL_PLAN_RECIPE DELETE] ", err.message)
 		return new NextResponse("Internal Error", { status: 500 })
 	}
 }

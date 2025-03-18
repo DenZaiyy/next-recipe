@@ -6,9 +6,13 @@ import React, { useState } from "react"
 
 interface TAddCommentProps {
 	action: string
+	redirect: string
 }
 
-export const AddComment: React.FC<TAddCommentProps> = ({ action }) => {
+export const AddComment: React.FC<TAddCommentProps> = ({
+	action,
+	redirect,
+}) => {
 	const [message, setMessage] = useState("")
 	const { user } = useUser()
 
@@ -25,7 +29,7 @@ export const AddComment: React.FC<TAddCommentProps> = ({ action }) => {
 
 			const data = await response.json()
 			if (data.redirect) {
-				window.location.href = data.redirect
+				window.location.href = redirect
 			}
 			setMessage(data.message)
 		} catch (err) {

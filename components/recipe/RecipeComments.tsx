@@ -31,7 +31,10 @@ export const RecipeComments = ({
 			)}
 
 			{(user || isSignedIn) && (
-				<AddComment action={`/api/recipe/${recipeSlug}/comment`} />
+				<AddComment
+					action={`/api/recipe/${recipeSlug}/comment`}
+					redirect={`/recipe/${recipeSlug}`}
+				/>
 			)}
 		</div>
 	)

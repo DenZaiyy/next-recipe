@@ -47,6 +47,11 @@ const MealPlanner = () => {
 			return
 		}
 
+		if (!user) {
+			setMessage("Please sign in to create a meal plan")
+			return
+		}
+
 		// Récupérer tous les champs mealPlanRecipes
 		const orders = formData.getAll("mealPlanRecipes[][order]")
 		const mealTypes = formData.getAll("mealPlanRecipes[][mealType]")
@@ -81,7 +86,7 @@ const MealPlanner = () => {
 
 			if (data.redirect) {
 				setTimeout(() => {
-					window.location.href = data.redirect
+					window.location.href = "/meal" + user.id
 				}, 2000)
 			}
 		} catch (err) {

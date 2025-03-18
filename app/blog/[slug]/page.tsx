@@ -82,6 +82,7 @@ const ArticleDetail = ({ params }: IArticleDetailProps) => {
 						{(user || isSignedIn) && (
 							<AddComment
 								action={`/api/blog/${article?.slug}/comment`}
+								redirect={`/blog/${article?.slug}`}
 							/>
 						)}
 					</div>
