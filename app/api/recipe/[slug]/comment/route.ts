@@ -39,7 +39,7 @@ export async function POST(req: NextRequest, { params }: TRecipeCommentProps) {
 			)
 		}
 
-		const comment = await db.comment.create({
+		const comment = await db.commentRecipe.create({
 			data: {
 				content,
 				userId,

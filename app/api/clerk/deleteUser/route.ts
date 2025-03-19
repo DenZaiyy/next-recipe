@@ -49,10 +49,18 @@ export async function POST(req: Request) {
 	if (eventType === "user.deleted") {
 		const { id } = evt.data
 
-		await db.comment.updateMany({
+		// Anonymize user when user are deleted from clerk
+		await db.commentRecipe.updateMany({
 			where: { userId: id },
 			data: { userId: null, userName: "Deleted User" },
 		})
+
+		await db.commentArticle.updateMany({
+			where: { userId: id },
+			data: { userId: null, userName: "Deleted User" },
+		})
+
+		await db.mealPlan.deleteMany({ where: { userId: id } })
 	}
 
 	return new Response("", { status: 200 })

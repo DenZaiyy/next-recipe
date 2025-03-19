@@ -3,11 +3,10 @@ import { CircleUser, Trash2 } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { useUser } from "@clerk/nextjs"
 import Image from "next/image"
-import { apiBlogService } from "@/services/blogService"
-import { apiRecipeService } from "@/services/recipeService"
+import { apiCommentService } from "@/services/commentService"
 
 interface ICommentProps {
-	comment: TComment
+	comment: TCommentRecipe | TCommentArticle
 }
 
 export const Comment: React.FC<ICommentProps> = ({ comment }) => {
@@ -23,14 +22,7 @@ export const Comment: React.FC<ICommentProps> = ({ comment }) => {
 		if (!isConfirmed) return
 
 		//check if the comment is from an article or a recipe
-		if (comment.recipe) {
-			await apiRecipeService.deleteComment(
-				comment.recipe.slug,
-				comment.id,
-			)
-		} else {
-			await apiBlogService.deleteComment(comment.article.slug, comment.id)
-		}
+		await apiCommentService.deleteComment(comment.id)
 	}
 
 	return (
@@ -66,7 +58,7 @@ export const Comment: React.FC<ICommentProps> = ({ comment }) => {
 					) : (
 						<CircleUser stroke={"rgba(228, 106, 88, 0.7)"} />
 					)}
-					{comment.userName} (<small>{comment.userId}</small>)
+					{comment.userName}
 				</div>
 				<div className={"text-foreground/50 text-sm"}>
 					{formatDate(comment.createdAt)}

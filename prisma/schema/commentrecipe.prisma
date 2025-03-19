@@ -1,0 +1,15 @@
+model CommentRecipe {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  content String
+
+  userId   String?
+  userName String?
+
+  createdAt DateTime @default(now())
+  upatedAt  DateTime @updatedAt
+
+  recipe   Recipe? @relation(fields: [recipeId], references: [id])
+  recipeId String? @db.ObjectId
+
+  @@index([recipeId])
+}

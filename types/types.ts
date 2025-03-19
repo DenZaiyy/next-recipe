@@ -28,17 +28,27 @@ interface TArticle {
 	user: TUser
 	createdAt: Date
 	updatedAt?: Date
-	comments?: TComment[]
+	comments?: TCommentArticle[]
 }
 
-interface TComment {
+interface TCommentRecipe {
 	id: string
 	content: string
 	userId?: string
 	userName?: string
 	createdAt: Date
-	recipe: TRecipe
-	article: TArticle
+	updatedAt?: Date
+	article?: TArticle
+}
+
+interface TCommentArticle {
+	id: string
+	content: string
+	userId?: string
+	userName?: string
+	createdAt: Date
+	updatedAt?: Date
+	article?: TArticle
 }
 
 /* interface TRecipeComment extends TComment {
@@ -84,7 +94,7 @@ interface TRecipe {
 	tools: TToolRecipe[]
 	steps: TStep[]
 	category: TCategory
-	comments?: TComment[]
+	comments?: TCommentRecipe[]
 	mealPlan?: TMealPlan[]
 }
 
