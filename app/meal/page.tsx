@@ -86,7 +86,7 @@ const MealPlanner = () => {
 
 			if (data.redirect) {
 				setTimeout(() => {
-					window.location.href = "/meal" + user.id
+					window.location.href = "/meal/" + user.id
 				}, 2000)
 			}
 		} catch (err) {
