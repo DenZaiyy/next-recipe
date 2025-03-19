@@ -7,6 +7,7 @@ export interface RecipeService {
 		cateogryId: string,
 		currentRecipeId: string,
 	) => Promise<TRecipe[]>
+	deleteComment: (slug: string, commentId: string) => Promise<void>
 }
 
 export const apiRecipeService: RecipeService = {
@@ -38,5 +39,13 @@ export const apiRecipeService: RecipeService = {
 		if (!res.ok) redirect("/recipe")
 
 		return res.json()
+	},
+	deleteComment: async (slug: string, commentId: string): Promise<void> => {
+		const res = await fetch(`/api/recipe/${slug}/comment/${commentId}`, {
+			method: "DELETE",
+			cache: "no-store",
+		})
+
+		if (!res.ok) redirect("/recipe")
 	},
 }

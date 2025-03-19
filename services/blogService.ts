@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 export interface BlogService {
 	getArticles: () => Promise<TArticle[]>
 	getArticle: (slug: string) => Promise<TArticle>
+	deleteComment: (slug: string, commentId: string) => Promise<void>
 }
 
 export const apiBlogService: BlogService = {
@@ -21,5 +22,13 @@ export const apiBlogService: BlogService = {
 		if (!res.ok) redirect("/blog/article")
 
 		return res.json()
+	},
+	deleteComment: async (slug: string, commentId: string): Promise<void> => {
+		const res = await fetch(`/api/blog/${slug}/comment/${commentId}`, {
+			method: "DELETE",
+			cache: "no-store",
+		})
+
+		if (!res.ok) redirect("/blog/article")
 	},
 }
