@@ -4,7 +4,7 @@ import { AddComment } from "@/components/AddComment"
 import { useUser } from "@clerk/nextjs"
 
 interface RecipeCommentsProps {
-	comments: TComment[]
+	comments: TCommentRecipe[]
 	recipeSlug: string
 }
 
