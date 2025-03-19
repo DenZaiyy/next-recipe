@@ -14,7 +14,7 @@ interface IMealPlanRecipes {
 }
 
 const MealPlanner = () => {
-	const { user, isSignedIn } = useUser()
+	const { user, isSignedIn, isLoaded } = useUser()
 	const [message, setMessage] = useState("")
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [categories, setCategories] = useState<TCategory[]>([])
@@ -92,6 +92,10 @@ const MealPlanner = () => {
 		} catch (err) {
 			if (err instanceof Error) setMessage(`Error: ${err.message}`)
 		}
+	}
+
+	if (!isLoaded) {
+		return <div>Loading...</div>
 	}
 
 	return (
