@@ -34,8 +34,8 @@ interface TArticle {
 interface TComment {
 	id: string
 	content: string
-	userId: string
-	userName: string
+	userId?: string
+	userName?: string
 	createdAt: Date
 	recipe: TRecipe
 	article: TArticle

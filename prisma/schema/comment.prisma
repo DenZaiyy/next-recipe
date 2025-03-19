@@ -2,8 +2,8 @@ model Comment {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   content String
 
-  userId   String
-  userName String
+  userId   String?
+  userName String?
 
   createdAt DateTime @default(now())
   upatedAt  DateTime @updatedAt

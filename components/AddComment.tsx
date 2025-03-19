@@ -1,6 +1,5 @@
 "use client"
 
-import { useUser } from "@clerk/nextjs"
 import { MessageSquareQuote } from "lucide-react"
 import React, { useState } from "react"
 
@@ -14,7 +13,6 @@ export const AddComment: React.FC<TAddCommentProps> = ({
 	redirect,
 }) => {
 	const [message, setMessage] = useState("")
-	const { user } = useUser()
 
 	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
@@ -58,22 +56,6 @@ export const AddComment: React.FC<TAddCommentProps> = ({
 						name="content"
 						id="content"
 					/>
-					{user && user.username && (
-						<div>
-							<input
-								type="hidden"
-								name="userId"
-								id="userId"
-								value={user.id}
-							/>
-							<input
-								type="hidden"
-								name="username"
-								id="username"
-								value={user.username}
-							/>
-						</div>
-					)}
 					<button
 						className="text-foreground text-sm font-medium rounded-md bg-secondary px-4 py-2"
 						type="submit"

@@ -2,6 +2,9 @@ import React from "react"
 import { CircleUser, Trash2 } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { useUser } from "@clerk/nextjs"
+import Image from "next/image"
+import { apiBlogService } from "@/services/blogService"
+import { apiRecipeService } from "@/services/recipeService"
 
 interface ICommentProps {
 	comment: TComment
@@ -10,22 +13,23 @@ interface ICommentProps {
 export const Comment: React.FC<ICommentProps> = ({ comment }) => {
 	const { user } = useUser()
 
-	const handleDelete = () => {
-		if (
-			comment.article &&
-			confirm(
-				"Êtes-vous sûr de vouloir supprimer ce commentaire du blog?",
+	console.log(user)
+
+	const handleDelete = async () => {
+		const isConfirmed = confirm(
+			"Êtes-vous sûr de vouloir supprimer ce commentaire ?",
+		)
+
+		if (!isConfirmed) return
+
+		//check if the comment is from an article or a recipe
+		if (comment.recipe) {
+			await apiRecipeService.deleteComment(
+				comment.recipe.slug,
+				comment.id,
 			)
-		) {
-			console.log("test article reponse")
-		}
-		if (
-			comment.recipe &&
-			confirm(
-				"Êtes-vous sûr de vouloir supprimer ce commentaire de la recette?",
-			)
-		) {
-			console.log("test recette reponse")
+		} else {
+			await apiBlogService.deleteComment(comment.article.slug, comment.id)
 		}
 	}
 
@@ -43,7 +47,7 @@ export const Comment: React.FC<ICommentProps> = ({ comment }) => {
 						className={
 							"flex gap-2 p-2 text-sm items-center text-white font-bold bg-red-600 rounded-md"
 						}
-						onClick={() => handleDelete}
+						onClick={handleDelete}
 					>
 						<Trash2 size={20} /> Delete
 					</button>
@@ -51,8 +55,18 @@ export const Comment: React.FC<ICommentProps> = ({ comment }) => {
 			)}
 			<div className={"flex flex-col text-foreground"}>
 				<div className={"flex gap-2 items-center capitalize"}>
-					<CircleUser stroke={"rgba(228, 106, 88, 0.7)"} />
-					{comment.userName}
+					{user && user.imageUrl ? (
+						<Image
+							src={user.imageUrl}
+							width={30}
+							height={30}
+							alt={`avatar of ${comment.userName}`}
+							className="rounded-full border border-gray-600"
+						/>
+					) : (
+						<CircleUser stroke={"rgba(228, 106, 88, 0.7)"} />
+					)}
+					{comment.userName} (<small>{comment.userId}</small>)
 				</div>
 				<div className={"text-foreground/50 text-sm"}>
 					{formatDate(comment.createdAt)}

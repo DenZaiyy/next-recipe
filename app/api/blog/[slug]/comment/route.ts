@@ -1,19 +1,28 @@
 import { db } from "@/lib/db"
-import { NextResponse } from "next/server"
+import { clerkClient, getAuth } from "@clerk/nextjs/server"
+import { NextRequest, NextResponse } from "next/server"
 import { z } from "zod"
 
 type TArticleCommentProps = { params: Promise<{ slug: string }> }
 
-export async function POST(req: Request, { params }: TArticleCommentProps) {
+export async function POST(req: NextRequest, { params }: TArticleCommentProps) {
 	const { slug } = await params
+	const { userId } = getAuth(req)
+
+	if (!userId) {
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+	}
+
+	const client = await clerkClient()
+
+	const user = await client.users.getUser(userId)
+
 	const formData = await req.formData()
 	const schema = z.string()
 
-	const userId = schema.parse(formData.get("userId"))
 	const content = schema.parse(formData.get("content"))
-	const username = schema.parse(formData.get("username"))
 
-	if (!userId || !content || !username) {
+	if (!content) {
 		return NextResponse.json(
 			{ error: "Missing required fields" },
 			{ status: 400 },
@@ -34,7 +43,7 @@ export async function POST(req: Request, { params }: TArticleCommentProps) {
 			data: {
 				content,
 				userId,
-				userName: username, // Using the provided username
+				userName: user.username, // Using the provided username
 				article: { connect: { id: article.id } },
 			},
 		})
