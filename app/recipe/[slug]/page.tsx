@@ -8,6 +8,7 @@ import { RecipeTabs } from "@/components/recipe/RecipeTabs"
 import { RecipeHeader } from "@/components/recipe/RecipeHeader"
 import { RecipeInstructions } from "@/components/recipe/RecipeInstructions"
 import { apiRecipeService } from "@/services/recipeService"
+import { RecipeNutritionalInfos } from "@/components/recipe/RecipeNutrionalInfos"
 
 interface TRecipeProps {
 	params: Promise<{ slug: string }>
@@ -46,6 +47,9 @@ const RecipeDetail = ({ params }: TRecipeProps) => {
 				)}
 			</div>
 			{recipe && recipe.steps && <RecipeSteps steps={recipe.steps} />}
+			{recipe && recipe.ingredients && (
+				<RecipeNutritionalInfos ingredients={recipe.ingredients} />
+			)}
 			{recipe && recipe.comments && (
 				<RecipeComments
 					comments={recipe.comments}
