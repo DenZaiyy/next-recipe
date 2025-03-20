@@ -9,6 +9,7 @@ import {
 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { NutritionalCard } from "@/components/NutritionalCard"
+import { Chart } from "@/components/chart/Chart"
 
 interface RecipeNutritionalInfosProps {
 	ingredients: TIngredientRecipe[]
@@ -20,6 +21,11 @@ interface TNutritionInfo {
 	unit: string
 }
 
+interface TChartProps {
+	labels: string[]
+	values: number[]
+}
+
 export const RecipeNutritionalInfos = ({
 	ingredients,
 }: RecipeNutritionalInfosProps) => {
@@ -29,6 +35,7 @@ export const RecipeNutritionalInfos = ({
 	const [lipid, setLipid] = useState<TNutritionInfo>()
 	const [sugars, setSugars] = useState<TNutritionInfo>()
 	const [vitC, setVitC] = useState<TNutritionInfo>()
+	const [datas, setDatas] = useState<TChartProps>()
 
 	const ingredientsList = ingredients
 		.map(
@@ -47,15 +54,30 @@ export const RecipeNutritionalInfos = ({
 				.then((res) => res.json())
 				.then((data) => data.ingredients[0].parsed[0].nutrients)
 
-			console.log(nutritionInfo)
-
 			setCalories(nutritionInfo["ENERC_KCAL"])
 			setProtein(nutritionInfo["PROCNT"])
 			setCarbohydrate(nutritionInfo["CHOCDF"])
 			setLipid(nutritionInfo["FAT"])
 			setSugars(nutritionInfo["SUGAR"])
 			setVitC(nutritionInfo["VITC"])
+
+			/*const labels = Object.keys(nutritionInfo).map((key) => key)
+            const values = Object.values(nutritionInfo).map(
+                (value) => value.quantity,
+            )*/
 		}
+
+		const labels = [
+			"Calories",
+			"Protein",
+			"Carbohydrate",
+			"Lipid",
+			"Sugars",
+			"Vitamin C",
+		]
+		const values = [1.4, 3.4, 1, 0.4, 0.6, 0.8]
+
+		setDatas({ labels, values })
 
 		fetchNutritionInfo(ingredientsString)
 	}, [ingredients])
@@ -119,6 +141,11 @@ export const RecipeNutritionalInfos = ({
 					bgColor="bg-orange-100 dark:bg-orange-900"
 					iconColor="text-orange-600 dark:text-orange-300"
 				/>
+				{datas && (
+					<div>
+						<Chart chartData={datas} />
+					</div>
+				)}
 			</div>
 		</div>
 	)
