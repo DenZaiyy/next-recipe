@@ -36,6 +36,7 @@ interface TCommentRecipe {
 	content: string
 	userId?: string
 	userName?: string
+	avatarUrl?: string
 	createdAt: Date
 	updatedAt?: Date
 	article?: TArticle
@@ -46,6 +47,7 @@ interface TCommentArticle {
 	content: string
 	userId?: string
 	userName?: string
+	avatarUrl?: string
 	createdAt: Date
 	updatedAt?: Date
 	article?: TArticle

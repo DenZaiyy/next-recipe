@@ -44,6 +44,7 @@ export async function POST(req: NextRequest, { params }: TArticleCommentProps) {
 				content,
 				userId,
 				userName: user.username, // Using the provided username
+				avatarUrl: user.imageUrl,
 				article: { connect: { id: article.id } },
 			},
 		})

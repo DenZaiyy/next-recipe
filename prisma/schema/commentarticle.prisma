@@ -2,8 +2,9 @@ model CommentArticle {
   id      String @id @default(auto()) @map("_id") @db.ObjectId
   content String
 
-  userId   String?
-  userName String?
+  userId    String?
+  userName  String?
+  avatarUrl String?
 
   createdAt DateTime @default(now())
   upatedAt  DateTime @updatedAt

@@ -12,8 +12,6 @@ interface ICommentProps {
 export const Comment: React.FC<ICommentProps> = ({ comment }) => {
 	const { user } = useUser()
 
-	console.log(user)
-
 	const handleDelete = async () => {
 		const isConfirmed = confirm(
 			"Êtes-vous sûr de vouloir supprimer ce commentaire ?",
@@ -46,14 +44,14 @@ export const Comment: React.FC<ICommentProps> = ({ comment }) => {
 				</div>
 			)}
 			<div className={"flex flex-col text-foreground"}>
-				<div className={"flex gap-2 items-center capitalize"}>
-					{user && user.imageUrl ? (
+				<div className={"flex gap-2 capitalize"}>
+					{comment.avatarUrl ? (
 						<Image
-							src={user.imageUrl}
+							src={comment.avatarUrl}
 							width={30}
 							height={30}
 							alt={`avatar of ${comment.userName}`}
-							className="rounded-full border border-gray-600"
+							className="rounded-full border border-gray-600 w-[25px] h-[25px]"
 						/>
 					) : (
 						<CircleUser stroke={"rgba(228, 106, 88, 0.7)"} />

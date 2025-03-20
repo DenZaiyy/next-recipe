@@ -44,6 +44,7 @@ export async function POST(req: NextRequest, { params }: TRecipeCommentProps) {
 				content,
 				userId,
 				userName: user.username, // Using the provided username
+				avatarUrl: user.imageUrl,
 				recipe: { connect: { id: recipe.id } },
 			},
 		})
