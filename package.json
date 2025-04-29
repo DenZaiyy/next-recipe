@@ -2,6 +2,7 @@
   "name": "next-recipe",
   "version": "0.1.0",
   "prisma": {
+    "schema": "prisma/schema/schema.prisma",
     "seed": "node prisma/seed.js"
   },
   "private": true,
