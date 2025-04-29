@@ -80,7 +80,7 @@ export const RecipeNutritionalInfos = ({
 		setDatas({ labels, values })
 
 		fetchNutritionInfo(ingredientsString)
-	}, [ingredients])
+	}, [ingredients, ingredientsString])
 
 	return (
 		<div className="w-full">
