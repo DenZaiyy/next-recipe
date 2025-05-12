@@ -14,7 +14,7 @@
     "prettier-app": "npx prettier ./app --write",
     "prettier-prisma": "npx prettier ./prisma --write",
     "prettier": "npx prettier . --write",
-    "test": "jest --watch",
+    "test": "jest",
     "audit": "npm audit"
   },
   "dependencies": {
