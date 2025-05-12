@@ -6,6 +6,8 @@ jobs:
   test-node:
     # Install node dependencies and run tests
     executor: node/default
+    environment:
+      JEST_JUNIT_OUTPUT_DIR: ./test-results/
     # Define the steps to run in this job
     steps:
       # Check out the code from the repository
@@ -14,12 +16,14 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run:
+          command: npm install jest-junit
+      - run:
           name: Create test-results directory
           command: mkdir -p ./test-results
         # Run the tests using npm and generate test results
       - run:
           name: Run tests
-          command: npm run test --ci --runInBand
+          command: npm run test --ci --runInBand --reporters=default --reporters=jest-junit
       # Store the test results in the specified directory
       - store_test_results:
           path: ./test-results/
