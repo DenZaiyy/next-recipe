@@ -10,7 +10,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "npx next lint",
     "prettier-app": "npx prettier ./app --write",
     "prettier-prisma": "npx prettier ./prisma --write",
     "prettier": "npx prettier . --write",
