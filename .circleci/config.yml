@@ -96,6 +96,10 @@ jobs:
 workflows:
   merge-dev-to-test:
     jobs:
+      - test-node:
+          filters:
+            branches:
+              only: dev
       - auto-merge-to-test:
           requires:
             - test-node
