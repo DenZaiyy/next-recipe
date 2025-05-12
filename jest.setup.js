@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
 
-// Suppression des avertissements liés aux props non utilisées (optionnel)
+// Suppression des avertissements liés aux props non utilisés (optionnel)
 const originalConsoleError = console.error;
 console.error = (...args) => {
 	if (
