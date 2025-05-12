@@ -28,6 +28,28 @@ jobs:
       - store_test_results:
           path: ./test-results/
 
+  # Job to audit the node project
+  audit-node:
+    executor: node/default
+    # Define the steps to run in this job
+    steps:
+      - checkout
+      # Run npm audit to check for vulnerabilities
+      - run:
+          name: Run npm audit
+          command: npm audit --audit-level=high
+
+  # Job to lint the node project
+  lint-node:
+    executor: node/default
+    # Define the steps to run in this job
+    steps:
+      - checkout
+      # Run npm lint to check for code style issues
+      - run:
+          name: Run npm lint
+          command: npm run lint
+
   # Job to build the node project and store artifacts
   build-node:
     # Build node project
@@ -77,14 +99,42 @@ jobs:
       - run:
           name: Auto-merge dev into test
           command: |
-              git fetch origin test
-              git checkout test
-              git reset --hard origin/test
-              git merge --no-ff -m "Auto-merge from dev to test" dev || echo "Nothing to merge"
-              git push origin test
+            git fetch origin test
+            git checkout test
+            git reset --hard origin/test
+            git merge --no-ff -m "Auto-merge from dev to test" dev || echo "Nothing to merge"
+            git push origin test
 
-  # Job to deploy the project on staging (vercel in this case)
-  deploy-staging:
+  # Job to create a pull request to the main branch if tests are successful
+  create-pr:
+    # Use the same node image as the test job
+    executor: node/default
+    # Define the steps to run in this job
+    steps:
+      # Check out the code from the repository
+      - checkout
+      # Install GitHub CLI
+      - run:
+          name: Install GitHub CLI
+          command: |
+            apt update && apt install -y gh
+      # Configure git user name and email
+      - run:
+          name: Git config
+          command: |
+            git config --global user.name "CircleCI Bot"
+            git config --global user.email "bot@circleci.com"
+            
+            echo $GH_TOKEN | gh auth login --with-token
+      # Create a pull request to the main branch
+      - run:
+          name: Create PR to main
+          command: |
+            gh pr list --base main --head $(git rev-parse --abbrev-ref HEAD) | grep -q . || \
+            gh pr create --base main --head $(git rev-parse --abbrev-ref HEAD) --title "Auto-PR from CircleCI" --body "This PR is created automatically by CircleCI after running tests and successfully."
+
+  # Job to deploy the project on prod (vercel in this case)
+  deploy-to-production:
     # Deploy the project using Vercel
     executor: node/default
     # Define the steps to run in this job
@@ -98,7 +148,7 @@ jobs:
       # Deploy the project using Vercel CLI
       - run:
           name: Deploy to Vercel
-          command: vercel deploy --target=staging --token=$VERCEL_TOKEN
+          command: vercel deploy --target=production --token=$VERCEL_TOKEN
 
 workflows:
   merge-dev-to-test:
@@ -126,9 +176,27 @@ workflows:
           filters:
             branches:
               only: test
-      - deploy-staging:
+      - audit-node:
           requires:
             - build-node
           filters:
             branches:
               only: test
+      - lint-node:
+          requires:
+              - build-node
+          filters:
+            branches:
+              only: test
+      - create-pr:
+          requires:
+            - lint-node
+          filters:
+            branches:
+              only: test
+  ci-on-main:
+    jobs:
+      - deploy-to-production:
+          filters:
+            branches:
+              only: main
