@@ -188,7 +188,7 @@ workflows:
           filters:
             branches:
               only: test
-      - create-pr-to-main:
+      - create-pr:
           requires:
             - lint-node
           filters:
