@@ -13,10 +13,13 @@ jobs:
       # Install node dependencies using npm
       - node/install-packages:
           pkg-manager: npm
+      - run:
+          name: Create test-results directory
+          command: mkdir -p ./test-results
         # Run the tests using npm and generate test results
       - run:
           name: Run tests
-          command: npm run test --ci --runInBand --reporters=default --reporters=jest-junit
+          command: npm run test --ci --runInBand
       # Store the test results in the specified directory
       - store_test_results:
           path: ./test-results/
