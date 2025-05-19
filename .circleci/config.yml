@@ -148,6 +148,10 @@ jobs:
       # Install node dependencies using npm
       - node/install-packages:
           pkg-manager: npm
+      # Test de build localement
+      - run:
+          name: Test build locally
+          command: npm run build
       # Install Vercel CLI globally
       - run:
           name: Install Vercel CLI
@@ -156,7 +160,7 @@ jobs:
       - run:
           name: Deploy to Vercel
           command: |
-            npx vercel deploy --token=$VERCEL_TOKEN --prod --confirm
+            npx vercel deploy --token=$VERCEL_TOKEN --prod --yes
 
 workflows:
   merge-dev-to-test:
