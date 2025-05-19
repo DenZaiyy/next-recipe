@@ -152,10 +152,11 @@ jobs:
       - run:
           name: Install Vercel CLI
           command: npm install --save-dev vercel
-      # Deploy the project using Vercel CLI
+      # Deploy the project using Vercel CI
       - run:
           name: Deploy to Vercel
-          command: vercel deploy --target=production --token=$VERCEL_TOKEN
+          command: |
+            npx vercel deploy --token=$VERCEL_TOKEN --prod --confirm
 
 workflows:
   merge-dev-to-test:
