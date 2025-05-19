@@ -197,7 +197,7 @@ jobs:
       - run:
           name: Deploy to Vercel
           command: |
-            npx vercel deploy --token=$VERCEL_TOKEN --prod --yes --debug
+            npx vercel deploy --token=$VERCEL_TOKEN --prod --yes --debug --name=next-recipe --scope=denzaiyys-projects
 
 workflows:
   merge-dev-to-test:
