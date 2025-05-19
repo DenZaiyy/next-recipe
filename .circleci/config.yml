@@ -45,6 +45,9 @@ jobs:
     # Define the steps to run in this job
     steps:
       - checkout
+      # Install node dependencies using npm
+      - node/install-packages:
+          pkg-manager: npm
       # Run npm lint to check for code style issues
       - run:
           name: Run npm lint
