@@ -130,8 +130,6 @@ jobs:
           command: |
             git config --global user.name "CircleCI Bot"
             git config --global user.email "bot@circleci.com"
-            
-            echo $GH_TOKEN | gh auth login --with-token
       # Create a pull request to the main branch
       - run:
           name: Create PR to main
