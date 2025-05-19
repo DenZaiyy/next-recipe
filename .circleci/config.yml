@@ -148,6 +148,10 @@ jobs:
       # Install node dependencies using npm
       - node/install-packages:
           pkg-manager: npm
+      - run:
+          name: Prisma migrate deploy
+          command: |
+            npx prisma migrate deploy
       # Test de build localement
       - run:
           name: Test build locally
