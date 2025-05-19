@@ -22,6 +22,7 @@ export default function Home() {
 					<li>Blog</li>
 					<li>Comments</li>
 					<li>CRUD</li>
+					<li>CI/CD avec CircleCI</li>
 				</ul>
 			</div>
 			<div className={"mt-5"}>
@@ -40,6 +41,7 @@ export default function Home() {
 					<li>Headless UI</li>
 					<li>Date Fns</li>
 					<li>Zod</li>
+					<li>Cypress</li>
 				</ul>
 			</div>
 		</div>
