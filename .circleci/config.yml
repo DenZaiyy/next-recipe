@@ -12,9 +12,10 @@ jobs:
     steps:
       # Check out the code from the repository
       - checkout
-      # Install node dependencies using npm
+      # Mise en cache simplifiée des dépendances npm
       - node/install-packages:
           pkg-manager: npm
+          cache-key: npm-deps-v1-{{ arch }}-{{ checksum "package-lock.json" }}
       - run:
           command: npm install jest-junit
       - run:
@@ -34,9 +35,9 @@ jobs:
     # Define the steps to run in this job
     steps:
       - checkout
-      # Install node dependencies using npm
       - node/install-packages:
           pkg-manager: npm
+          cache-key: npm-deps-v1-{{ arch }}-{{ checksum "package-lock.json" }}
       # Run npm audit to check for vulnerabilities
       - run:
           name: Run npm audit
@@ -48,9 +49,9 @@ jobs:
     # Define the steps to run in this job
     steps:
       - checkout
-      # Install node dependencies using npm
       - node/install-packages:
           pkg-manager: npm
+          cache-key: npm-deps-v1-{{ arch }}-{{ checksum "package-lock.json" }}
       # Run npm lint to check for code style issues
       - run:
           name: Run npm lint
@@ -65,12 +66,24 @@ jobs:
     steps:
       # Check out the code from the repository
       - checkout
-      # Install node dependencies using npm
       - node/install-packages:
           pkg-manager: npm
+          cache-key: npm-deps-v1-{{ arch }}-{{ checksum "package-lock.json" }}
+      # Restaurer le cache du build Next.js
+      - restore_cache:
+          keys:
+            - next-cache-v1-{{ .Branch }}-{{ .Revision }}
+            - next-cache-v1-{{ .Branch }}
+            - next-cache-v1
       # Run the build command to generate the build artifacts
       - run:
+          name: Build Next.js application
           command: npm run build
+      # Save the cache for the Next.js build
+      - save_cache:
+          key: next-cache-v1-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - .next/cache
       # Create the artifacts directory if it doesn't exist to avoid errors
       - run:
           name: Create the ~/artifacts directory if it doesn't exist
@@ -138,24 +151,39 @@ jobs:
             gh pr create --base main --head $(git rev-parse --abbrev-ref HEAD) --title "Auto-PR from CircleCI" --body "This PR is created automatically by CircleCI after running tests and successfully."
 
   # Job to deploy the project on prod (vercel in this case)
-  deploy-to-production:
+  main-deployment:
     # Deploy the project using Vercel
     executor: node/default
     # Define the steps to run in this job
     steps:
       # Check out the code from the repository
       - checkout
-      # Install node dependencies using npm
       - node/install-packages:
           pkg-manager: npm
+          cache-key: npm-deps-v1-{{ arch }}-{{ checksum "package-lock.json" }}
+      # Génération explicite du client Prisma
       - run:
-          name: Prisma migrate deploy
-          command: |
-            npx prisma migrate deploy
+          name: Generate Prisma Client
+          command: npx prisma generate
+      # Restaurer le cache du build Next.js
+      - restore_cache:
+          keys:
+           - next-cache-v1-{{ .Branch }}-{{ .Revision }}
+           - next-cache-v1-{{ .Branch }}
+           - next-cache-v1
+      # Synchronisation du schéma avec MongoDB
+      - run:
+          name: Prisma db push
+          command: npx prisma db push
       # Test de build localement
       - run:
-          name: Test build locally
+          name: Build Next.js application
           command: npm run build
+      # Save the cache for the Next.js build
+      - save_cache:
+          key: next-cache-v1-{{ .Branch }}-{{ .Revision }}
+          paths:
+            - .next/cache
       # Install Vercel CLI globally
       - run:
           name: Install Vercel CLI
@@ -164,7 +192,7 @@ jobs:
       - run:
           name: Deploy to Vercel
           command: |
-            npx vercel deploy --token=$VERCEL_TOKEN --prod --yes
+            npx vercel deploy --token=$VERCEL_TOKEN --prod --yes --debug
 
 workflows:
   merge-dev-to-test:
@@ -212,7 +240,7 @@ workflows:
               only: test
   ci-on-main:
     jobs:
-      - deploy-to-production:
+      - main-deployment:
           filters:
             branches:
               only: main

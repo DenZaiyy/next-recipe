@@ -15,7 +15,8 @@
     "prettier-prisma": "npx prettier ./prisma --write",
     "prettier": "npx prettier . --write",
     "test": "jest",
-    "audit": "npm audit"
+    "audit": "npm audit",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@clerk/localizations": "^3.10.6",
