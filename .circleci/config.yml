@@ -151,7 +151,7 @@ jobs:
       # Install Vercel CLI globally
       - run:
           name: Install Vercel CLI
-          command: npm install -g vercel
+          command: npm install --save-dev vercel
       # Deploy the project using Vercel CLI
       - run:
           name: Deploy to Vercel
