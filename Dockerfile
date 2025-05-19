@@ -17,7 +17,7 @@ RUN npm install
 COPY . .
 
 # Using .env variables
-COPY .env.prod .
+COPY .env.production .
 
 # Linting
 RUN npm run lint
