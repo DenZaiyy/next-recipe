@@ -1,4 +1,13 @@
 version: 2.1
+commands:
+  # Command to use npm ci to install dependencies
+    npm-ci:
+      description: Install npm dependencies using npm ci
+      steps:
+        - node/install-packages:
+            pkg-manager: npm
+            cache-version: v1
+            override-ci-command: npm ci
 orbs:
   node: circleci/node@7.1.0
 jobs:
@@ -13,12 +22,7 @@ jobs:
       # Check out the code from the repository
       - checkout
       # Mise en cache simplifiée des dépendances npm
-      - node/install-packages:
-          pkg-manager: npm
-          cache-version: v1
-          override-ci-command: npm ci
-      - run:
-          command: npm install jest-junit
+      - npm-ci
       - run:
           name: Create test-results directory
           command: mkdir -p ./test-results
@@ -30,20 +34,36 @@ jobs:
       - store_test_results:
           path: ./test-results/
 
+  e2e-cypress:
+    executor: node/default
+    steps:
+      - checkout
+      - npm-ci
+      - run:
+          name: Run Cypress E2E tests
+          command: npm run e2e # ou `npx cypress run` selon ta config
+      - store_artifacts:
+          path: cypress/screenshots
+          destination: cypress-screenshots
+      - store_artifacts:
+          path: cypress/videos
+          destination: cypress-videos
+
   # Job to audit the node project
   audit-node:
     executor: node/default
     # Define the steps to run in this job
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
-          cache-version: v1
-          override-ci-command: npm ci
+      - npm-ci
+      # Install JQ for audit
+      - run:
+          name: Install jq
+          command: sudo apt-get update && sudo apt-get install -y jq
       # Run npm audit to check for vulnerabilities
       - run:
           name: Run npm audit
-          command: npm audit --audit-level=high
+          command: npm audit --audit-level=high --json | jq -e '.metadata.vulnerabilities.high == 0 and .metadata.vulnerabilities.critical == 0'
 
   # Job to lint the node project
   lint-node:
@@ -51,10 +71,7 @@ jobs:
     # Define the steps to run in this job
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
-          cache-version: v1
-          override-ci-command: npm ci
+      - npm ci
       # Run npm lint to check for code style issues
       - run:
           name: Run npm lint
@@ -69,10 +86,7 @@ jobs:
     steps:
       # Check out the code from the repository
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
-          cache-version: v1
-          override-ci-command: npm ci
+      - npm ci
       # Restaurer le cache du build Next.js
       - restore_cache:
           keys:
@@ -88,14 +102,12 @@ jobs:
           key: next-cache-v1-{{ .Branch }}-{{ .Revision }}
           paths:
             - .next/cache
-      # Create the artifacts directory if it doesn't exist to avoid errors
-      - run:
-          name: Create the ~/artifacts directory if it doesn't exist
-          command: mkdir -p ~/artifacts
       # Copy output to artifacts dir
       - run:
-          name: Copy artifacts
-          command: cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
+          name: Copy necessary artifacts only
+          command: |
+            mkdir -p ~/artifacts
+            cp -R build dist public .output .next .docusaurus ~/artifacts 2>/dev/null || true
       # Store the artifacts in the specified directory
       - store_artifacts:
           path: ~/artifacts
@@ -162,10 +174,7 @@ jobs:
     steps:
       # Check out the code from the repository
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
-          cache-version: v1
-          override-ci-command: npm ci
+      - npm ci
       # Génération explicite du client Prisma
       - run:
           name: Generate Prisma Client
@@ -216,6 +225,12 @@ workflows:
   ci-on-test:
     jobs:
       - test-node:
+          filters:
+            branches:
+              only: test
+      - e2e-cypress:
+          requires:
+            - test-node:
           filters:
             branches:
               only: test
