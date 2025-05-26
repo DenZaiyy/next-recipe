@@ -230,7 +230,7 @@ workflows:
               only: test
       - e2e-cypress:
           requires:
-            - test-node:
+            - test-node
           filters:
             branches:
               only: test
