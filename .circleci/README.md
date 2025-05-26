@@ -50,3 +50,5 @@ jobs: # Définition des jobs avec les étapes
 workflows: # Définition des workflows pour organiser les jobs avec des filtres (pour une branch particulière par exemple)
 ...
 ```
+
+[![ElanFormation](https://circleci.com/gh/ElanFormation/next-recipes.svg?style=svg)](https://app.circleci.com/projects/circleci/VGbp6eJGiqeE2nbyjZyTf6/XUgHkJqFqHkfTTUGjy6GrX)
