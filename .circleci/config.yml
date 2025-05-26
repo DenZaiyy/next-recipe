@@ -35,10 +35,13 @@ jobs:
           path: ./test-results/
 
   e2e-cypress:
-    executor: node/default
+    docker:
+      - image: cypress/included:14.3.3
     steps:
       - checkout
-      - npm-ci
+      - run:
+          name: Install dependencies
+          command: npm ci
       - run:
           name: Run Cypress E2E tests
           command: npm run e2e
