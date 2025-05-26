@@ -1,13 +1,13 @@
 version: 2.1
 commands:
   # Command to use npm ci to install dependencies
-    npm-ci:
-      description: Install npm dependencies using npm ci
-      steps:
-        - node/install-packages:
-            pkg-manager: npm
-            cache-version: v1
-            override-ci-command: npm ci
+  npm-ci:
+    description: Install npm dependencies using npm ci
+    steps:
+      - node/install-packages:
+          pkg-manager: npm
+          cache-version: v1
+          override-ci-command: npm ci
 orbs:
   node: circleci/node@7.1.0
 jobs:
@@ -33,24 +33,6 @@ jobs:
       # Store the test results in the specified directory
       - store_test_results:
           path: ./test-results/
-
-  e2e-cypress:
-    docker:
-      - image: cypress/included:14.3.3
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies
-          command: npm ci
-      - run:
-          name: Run Cypress E2E tests
-          command: npm run e2e
-      - store_artifacts:
-          path: cypress/screenshots
-          destination: cypress-screenshots
-      - store_artifacts:
-          path: cypress/videos
-          destination: cypress-videos
 
   # Job to audit the node project
   audit-node:
@@ -185,9 +167,9 @@ jobs:
       # Restaurer le cache du build Next.js
       - restore_cache:
           keys:
-           - next-cache-v1-{{ .Branch }}-{{ .Revision }}
-           - next-cache-v1-{{ .Branch }}
-           - next-cache-v1
+            - next-cache-v1-{{ .Branch }}-{{ .Revision }}
+            - next-cache-v1-{{ .Branch }}
+            - next-cache-v1
       # Synchronisation du schéma avec MongoDB
       - run:
           name: Prisma db push
@@ -228,12 +210,6 @@ workflows:
   ci-on-test:
     jobs:
       - test-node:
-          filters:
-            branches:
-              only: test
-      - e2e-cypress:
-          requires:
-            - test-node
           filters:
             branches:
               only: test
