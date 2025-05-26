@@ -15,7 +15,7 @@ describe("Homepage to recipes page", () => {
 describe("Recipe detail", () => {
 	it("Recipe detail", () => {
 		cy.visit(
-			"https://next-recipe-denzaiyy.vercel.app/recipe/quiche-de-courge-butternut-et-jambon",
+			"https://next-recipe-denzaiyy.vercel.app/recipe/quiche-de-courge-butternut-et-jambon/",
 		)
 		cy.contains("Quiche de courge butternut et jambon")
 		cy.contains("Instructions")
