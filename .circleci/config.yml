@@ -74,7 +74,7 @@ jobs:
     # Define the steps to run in this job
     steps:
       - checkout
-      - npm ci
+      - npm-ci
       # Run npm lint to check for code style issues
       - run:
           name: Run npm lint
@@ -89,7 +89,7 @@ jobs:
     steps:
       # Check out the code from the repository
       - checkout
-      - npm ci
+      - npm-ci
       # Restaurer le cache du build Next.js
       - restore_cache:
           keys:
@@ -177,7 +177,7 @@ jobs:
     steps:
       # Check out the code from the repository
       - checkout
-      - npm ci
+      - npm-ci
       # Génération explicite du client Prisma
       - run:
           name: Generate Prisma Client
