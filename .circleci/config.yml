@@ -106,12 +106,7 @@ jobs:
     # Define the steps to run in this job
     steps:
       - lighthouse-check/audit:
-          # Use the default configuration for the Lighthouse audit
-          config: default
-          # Specify the URL to audit
-          url: https://next-recipe.vercel.app/
-          # Store the report in the specified directory
-          store_report: true
+          urls: https://next-recipe.vercel.app/
       - lighthouse-check/validate-status:
           minAccessibilityScore: '60'
           minPerformanceScore: '90'
