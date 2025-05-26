@@ -41,7 +41,7 @@ jobs:
       - npm-ci
       - run:
           name: Run Cypress E2E tests
-          command: npm run e2e # ou `npx cypress run` selon ta config
+          command: npm run e2e
       - store_artifacts:
           path: cypress/screenshots
           destination: cypress-screenshots
