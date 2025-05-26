@@ -175,7 +175,7 @@ jobs:
       # Run TypeScript type checking
       - run:
           name: Run TypeScript check and lint
-          command: tsc --noEmit && npm run lint
+          command: npx tsc --noEmit && npm run lint
 
   # Job to auto merge to the test branch
   auto-merge-to-test:
