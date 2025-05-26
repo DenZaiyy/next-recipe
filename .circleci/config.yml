@@ -234,6 +234,7 @@ workflows:
       - create-pr:
           requires:
             - lint-node
+            - audit-node
           filters:
             branches:
               only: test
