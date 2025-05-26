@@ -98,6 +98,7 @@ jobs:
           path: ~/artifacts
           destination: node-build
 
+  # Job to check lighthouse scores and store the report in artifacts
   lighthouse-audit:
     executor: node/default
     steps:
@@ -154,6 +155,17 @@ jobs:
       - store_artifacts:
           path: ./lighthouse/report.json
           destination: lighthouse-report
+
+  # Job to check TypeScript types
+  typescript-check:
+    executor: node/default
+    steps:
+      - checkout
+      - npm-ci
+      # Run TypeScript type checking
+      - run:
+          name: Run TypeScript check and lint
+          command: tsc --noEmit && npm run lint
 
   # Job to auto merge to the test branch
   auto-merge-to-test:
@@ -287,10 +299,22 @@ workflows:
           filters:
             branches:
               only: test
+      - typescript-check:
+          requires:
+            - audit-node
+            - lint-node
+          filters:
+            branches:
+              only: test
+      - lighthouse-audit:
+          requires:
+            - typescript-check
+          filters:
+            branches:
+              only: test
       - create-pr:
           requires:
-            - lint-node
-            - audit-node
+            - lighthouse-audit
           filters:
             branches:
               only: test
