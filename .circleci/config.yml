@@ -132,6 +132,7 @@ jobs:
       - run:
           name: Run Lighthouse audit
           command: |
+            mkdir -p ./lighthouse
             lighthouse http://localhost:3000 \
               --output json \
               --output-path ./lighthouse/report.json \
