@@ -1,6 +1,18 @@
 # Configuration CI/CD avec CircleCI pour Next.js
 Le détail de la configuration CircleCI pour le déploiement de l'application Next.js est géré dans le fichier [`.circleci/config.yml`](https://github.com/DenZaiyy/next-recipe/blob/main/.circleci/config.yml). Ce fichier contient les étapes nécessaires pour construire, tester et déployer l'application sur Vercel.
 
+## 📖 Sommaire
+- [A propos du projet](#a-propos-du-projet)
+- [Les prérequis](#les-prérequis)
+- [Structure du pipeline](#structure-du-pipeline)
+- [Branche `dev`](#branche-dev)
+- [Branche `test`](#branche-test)
+- [Branche `main`](#branche-main)
+- [Exemple de structure du fichier config.yml](#exemple-de-structure-du-fichier-configyml)
+
+## A propos du projet
+Ce projet est une application Next.js qui utilise Prisma pour la gestion de la base de données et Vercel pour le déploiement. La configuration CircleCI permet d'automatiser les tests, la construction et le déploiement de l'application à chaque modification du code.
+
 ## Les prérequis
 Avant de commencer, assurez-vous que les prérequis suivants sont en place :
 - **Node.js** : Version LTS minimum.
@@ -10,16 +22,16 @@ Avant de commencer, assurez-vous que les prérequis suivants sont en place :
 - **CircleCI** : Un compte et un projet configuré pour votre dépôt Git.
 - **Git** : Utilisé pour la gestion de version et les Pull Requests.
 
-## 📁 Structure du pipeline
+## 📁Structure du pipeline
 La pipeline est organisée par branche et comprend plusieurs jobs pour chaque étape du processus de déploiement. Chaque job est défini avec des commandes spécifiques et des dépendances pour assurer que les étapes sont exécutées dans le bon ordre.
 
-### 🔁 Branche `dev`
+### 🔁Branche `dev`
 - **Objectifs** : Effectuer des tests et préparer le code pour le merge vers la branche `test`.
 - **Jobs exécutés** :
   - **test-node** : Exécute les tests unitaires et d'intégration.
   - **merge-to-test** : Fusion automatique vers `test` si les tests réussissent.
 
-### 🧪 Branche `test`
+### 🧪Branche `test`
 - **Objectifs** : Valider la stabilité du code avant de proposer une fusion vers `main`.
 - **Jobs exécutés** :
   - **test-node** : Exécute les tests unitaires et d'intégration.
@@ -30,13 +42,13 @@ La pipeline est organisée par branche et comprend plusieurs jobs pour chaque é
   - **lighthouse-audit** : Exécute un audit Lighthouse pour la performance et l'accessibilité si `typescript-check` réussi.
   - **create-pr** : Crée un Pull Request vers `main` si les jobs précédents ont réussi.
 
-### 🚀 Branche `main`
+### 🚀Branche `main`
 - **Objectifs** : Déployer l'application en production sur Vercel.
 - **Jobs exécutés** :
   - **main-deployment** : Installe les dépendances, génère le client Prisma, met à jour la base de données, construit l'application Next.js, installe la CLI Vercel et déploie l'application sur Vercel.
 - **Conditions** : Ce job est exécuté uniquement si la Pull Request a été acceptée et fusionnée dans la branche `main`.
 
-## ⚙️ Exemple de structure du fichier config.yml
+## ⚙️Exemple de structure du fichier config.yml
 L'indentation et la structure du fichier `.circleci/config.yml` sont cruciales pour le bon fonctionnement des jobs. Voici un exemple de la structure de base :
 
 ```yaml
