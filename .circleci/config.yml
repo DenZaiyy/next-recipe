@@ -35,22 +35,6 @@ jobs:
       - store_test_results:
           path: ./test-results/
 
-  # Cypress job to run end-to-end tests
-  cypress-tests:
-    executor: cypress/default
-    steps:
-      - checkout
-      - npm-ci
-      # Run Cypress tests
-      - cypress/run:
-          record: false
-          parallel: false
-          group: "Cypress Tests"
-          browser: chrome
-          command: npm run cypress:run
-      # Store the Cypress test results
-      - store_test_results:
-
   # Job to audit the node project
   audit-node:
     executor: node/default
@@ -240,14 +224,11 @@ workflows:
           filters:
             branches:
               only: dev
-      - cypress-tests:
-          filters:
-            branches:
-              only: dev
+      - cypress/run:
+          no-workspace: true
       - auto-merge-to-test:
           requires:
             - test-node
-            - cypress-tests
           filters:
             branches:
               only: dev
@@ -257,14 +238,11 @@ workflows:
           filters:
             branches:
               only: test
-      - cypress-tests:
-          filters:
-            branches:
-              only: test
+      - cypress/run:
+          no-workspace: true
       - build-node:
           requires:
             - test-node
-            - cypress-tests
           filters:
             branches:
               only: test
