@@ -11,6 +11,7 @@ commands:
 orbs:
   node: circleci/node@7.1.0 # Node.js orb for CircleCI
   lighthouse-check: foo-software/lighthouse-check@0.0.13
+  cypress: cypress-io/cypress@4
 jobs:
   # Job to run tests with jest-junit and store results to /test-results
   test-node:
@@ -30,18 +31,25 @@ jobs:
       - run:
           name: Run jest tests
           command: npm run test --ci --runInBand --reporters=default --reporters=jest-junit
-      # Install dependencies for Cypress
-      - run:
-          name: Install Cypress dependencies
-          command: |
-            sudo apt-get install libgtk2.0-0t64 libgtk-3-0t64 libgbm-dev libnotify-dev libnss3 libxss1 libasound2t64 libxtst6 xauth xvfb
-      # Run Cypress tests
-      - run:
-          name: Run cypress tests
-          command: npm run e2e
       # Store the test results in the specified directory
       - store_test_results:
           path: ./test-results/
+
+  # Cypress job to run end-to-end tests
+  cypress-tests:
+    executor: cypress/default
+    steps:
+      - checkout
+      - npm-ci
+      # Run Cypress tests
+      - cypress/run:
+          record: false
+          parallel: false
+          group: "Cypress Tests"
+          browser: chrome
+          command: npm run cypress:run
+      # Store the Cypress test results
+      - store_test_results:
 
   # Job to audit the node project
   audit-node:
@@ -229,6 +237,12 @@ workflows:
   merge-dev-to-test:
     jobs:
       - test-node:
+          filters:
+            branches:
+              only: dev
+      - cypress-tests:
+          requires:
+            - test-node
           filters:
             branches:
               only: dev
