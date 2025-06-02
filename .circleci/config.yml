@@ -36,6 +36,7 @@ jobs:
           path: ./test-results/
   cypress-node:
     executor: cypress/default
+    parallelism: 8
     environment:
       BASE_URL: http://localhost:3000
     steps:
@@ -43,7 +44,7 @@ jobs:
           package-manager: npm
           install-browsers: true
       - cypress/run-tests:
-          cypress-command: npx wait-on@latest http://localhost:3000 && npx cypress run --browser chrome
+          cypress-command: npx wait-on@latest http://localhost:3000 && npx cypress run --browser chrome --component --parallel --record
           start-command: npm run build && npm run start
   # Job to audit the node project
   audit-node:
