@@ -11,6 +11,7 @@ commands:
 orbs:
   node: circleci/node@7.1.0 # Node.js orb for CircleCI
   lighthouse-check: foo-software/lighthouse-check@0.0.13
+  cypress: cypress-io/cypress@4.1.0
 jobs:
   # Job to run tests with jest-junit and store results to /test-results
   test-node:
@@ -22,14 +23,13 @@ jobs:
     steps:
       # Check out the code from the repository
       - checkout
-      # Mise en cache simplifiée des dépendances npm
       - npm-ci
       - run:
           name: Create test-results directory
           command: mkdir -p ./test-results
         # Run the tests using npm and generate test results
       - run:
-          name: Run tests
+          name: Run jest tests
           command: npm run test --ci --runInBand --reporters=default --reporters=jest-junit
       # Store the test results in the specified directory
       - store_test_results:
@@ -105,15 +105,8 @@ jobs:
     executor: lighthouse-check/default
     # Define the steps to run in this job
     steps:
-      - run:
-          name: Run application server
-          command: |
-              # Start the application server in the background
-              npm run start &
-              # Wait for the server to be ready
-              sleep 10
       - lighthouse-check/audit:
-          urls: http://localhost:3000
+          urls: https://next-recipe-git-test-denzaiyys-projects.vercel.app/
       - lighthouse-check/validate-status:
           minAccessibilityScore: '50'
           minPerformanceScore: '90'
@@ -231,6 +224,10 @@ workflows:
           filters:
             branches:
               only: dev
+      - cypress/run:
+          cypress-command: npx cypress run --browser chrome
+          install-browsers: true
+          start-command: npm run start:dev
       - auto-merge-to-test:
           requires:
             - test-node
@@ -243,6 +240,10 @@ workflows:
           filters:
             branches:
               only: test
+      - cypress/run:
+          cypress-command: npx cypress run --browser chrome
+          install-browsers: true
+          start-command: npm run start:dev
       - build-node:
           requires:
             - test-node
