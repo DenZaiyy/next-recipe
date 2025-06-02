@@ -231,6 +231,7 @@ workflows:
       - auto-merge-to-test:
           requires:
             - test-node
+            - cypress/run
           filters:
             branches:
               only: dev
@@ -247,6 +248,7 @@ workflows:
       - build-node:
           requires:
             - test-node
+            - cypress/run
           filters:
             branches:
               only: test
