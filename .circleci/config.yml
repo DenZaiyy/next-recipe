@@ -34,24 +34,14 @@ jobs:
       # Store the test results in the specified directory
       - store_test_results:
           path: ./test-results/
-
-  install-and-persist:
+  cypress-node:
     executor: cypress/default
     steps:
-      - cypress/install
-      - persist_to_workspace:
-          paths:
-            - .cache/Cypress
-            - project
-          root: ~/
-  run-tests-in-parallel:
-    executor: cypress/default
-    parallelism: 8
-    steps:
-      - attach_workspace:
-          at: ~/
+      - cypress/install:
+          package-manager: npm
       - cypress/run-tests:
-          cypress-command: npx cypress run --component --parallel --record
+          cypress-command: npx cypress run
+          start-command: npm run start
   # Job to audit the node project
   audit-node:
     executor: node/default
@@ -241,12 +231,12 @@ workflows:
           filters:
             branches:
               only: dev
-      - install-and-persist:
+      - cypress-node:
           requires:
             - test-node
-      - run-tests-in-parallel:
-          requires:
-            - install-and-persist
+          filters:
+            branches:
+              only: dev
 #      - cypress/run:
 #          cypress-command: npx cypress run --browser chrome
 #          install-browsers: true
