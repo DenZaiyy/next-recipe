@@ -35,6 +35,23 @@ jobs:
       - store_test_results:
           path: ./test-results/
 
+  install-and-persist:
+    executor: cypress/default
+    steps:
+      - cypress/install
+      - persist_to_workspace:
+          paths:
+            - .cache/Cypress
+            - project
+          root: ~/
+  run-tests-in-parallel:
+    executor: cypress/default
+    parallelism: 8
+    steps:
+      - attach_workspace:
+          at: ~/
+      - cypress/run-tests:
+          cypress-command: npx cypress run --component --parallel --record
   # Job to audit the node project
   audit-node:
     executor: node/default
@@ -224,10 +241,16 @@ workflows:
           filters:
             branches:
               only: dev
-      - cypress/run:
-          cypress-command: npx cypress run --browser chrome
-          install-browsers: true
-          start-command: npm run dev
+      - install-and-persist:
+          requires:
+            - test-node
+      - run-tests-in-parallel:
+          requires:
+            - install-and-persist
+#      - cypress/run:
+#          cypress-command: npx cypress run --browser chrome
+#          install-browsers: true
+#          start-command: npm run dev
       - auto-merge-to-test:
           requires:
             - test-node
