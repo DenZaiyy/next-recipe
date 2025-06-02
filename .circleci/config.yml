@@ -11,7 +11,7 @@ commands:
 orbs:
   node: circleci/node@7.1.0 # Node.js orb for CircleCI
   lighthouse-check: foo-software/lighthouse-check@0.0.13
-  cypress: cypress-io/cypress@4
+  cypress: cypress-io/cypress@4.1.0
 jobs:
   # Job to run tests with jest-junit and store results to /test-results
   test-node:
@@ -225,7 +225,9 @@ workflows:
             branches:
               only: dev
       - cypress/run:
-          no-workspace: true
+          cypress-command: npx cypress run --browser chrome
+          install-browsers: true
+          start-command: npm run start:dev
       - auto-merge-to-test:
           requires:
             - test-node
@@ -239,7 +241,9 @@ workflows:
             branches:
               only: test
       - cypress/run:
-          no-workspace: true
+          cypress-command: npx cypress run --browser chrome
+          install-browsers: true
+          start-command: npm run start:dev
       - build-node:
           requires:
             - test-node
