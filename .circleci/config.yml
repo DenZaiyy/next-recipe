@@ -36,6 +36,8 @@ jobs:
           path: ./test-results/
   cypress-node:
     executor: cypress/default
+    environment:
+      BASE_URL: http://localhost:3000
     steps:
       - cypress/install:
           package-manager: npm
