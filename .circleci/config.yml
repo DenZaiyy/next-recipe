@@ -254,7 +254,7 @@ workflows:
       - auto-merge-to-test:
           requires:
             - test-node
-            - cypress/run
+            - run-tests-in-parallel
           filters:
             branches:
               only: dev
