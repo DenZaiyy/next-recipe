@@ -43,7 +43,7 @@ jobs:
           package-manager: npm
       - cypress/run-tests:
           cypress-command: npx wait-on@latest http://localhost:3000 && npx cypress run
-          start-command: npm build && npm start
+          start-command: npm run build && npm run start
   # Job to audit the node project
   audit-node:
     executor: node/default
