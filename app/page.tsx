@@ -1,11 +1,11 @@
 "use client"
 
-import { useUser } from "@clerk/nextjs"
+//import { useUser } from "@clerk/nextjs"
 import React from "react"
 
 export default function Home() {
-	const { user } = useUser()
-	console.log(user)
+	//const { user } = useUser()
+	//console.log(user)
 
 	return (
 		<div className="min-h-[80vh] flex flex-col items-center justify-center">
