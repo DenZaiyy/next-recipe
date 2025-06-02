@@ -41,7 +41,7 @@ jobs:
           package-manager: npm
       - cypress/run-tests:
           start-command: npm run dev
-          cypress-command: npx cypress run --browser chrome
+          cypress-command: npx cypress run
   # Job to audit the node project
   audit-node:
     executor: node/default
