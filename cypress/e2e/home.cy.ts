@@ -8,7 +8,6 @@ describe("Homepage to recipes page", () => {
 		cy.get('nav section ul > [href="/recipe"]').click({ force: true })
 		cy.url().should("include", "recipe")
 		cy.contains("Latest Recipes")
-		cy.wait(10000)
 		cy.contains("Quiche de courge butternut et jambon")
 	})
 })
