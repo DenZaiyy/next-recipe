@@ -41,8 +41,9 @@ jobs:
     steps:
       - cypress/install:
           package-manager: npm
+          install-browsers: true
       - cypress/run-tests:
-          cypress-command: npx wait-on@latest http://localhost:3000 && npx cypress run
+          cypress-command: npx wait-on@latest http://localhost:3000 && npx cypress run --browser chrome
           start-command: npm run build && npm run start
   # Job to audit the node project
   audit-node:
