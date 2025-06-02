@@ -1,11 +1,12 @@
 describe("Homepage to recipes page", () => {
 	it("Home to recipe lists", () => {
-		cy.visit("http://localhost:3000/")
+		cy.visit("/")
 
 		cy.contains("CI/CD avec CircleCI")
 		cy.contains("Cypress")
 
-		cy.get('.flex > [href="/recipe"]').click({ force: true })
+		cy.get(".space-y-2").click()
+		cy.get('.flex > [href="/recipe"]').click()
 		cy.url().should("include", "recipe")
 		cy.contains("Latest Recipes")
 		cy.contains("Quiche de courge butternut et jambon")
@@ -14,9 +15,7 @@ describe("Homepage to recipes page", () => {
 
 describe("Recipe detail", () => {
 	it("Recipe detail", () => {
-		cy.visit(
-			"http://localhost:3000/recipe/quiche-de-courge-butternut-et-jambon/",
-		)
+		cy.visit("/recipe/quiche-de-courge-butternut-et-jambon/")
 		cy.contains("Quiche de courge butternut et jambon")
 		cy.contains("Instructions")
 		cy.contains("Steps")
