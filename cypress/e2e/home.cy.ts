@@ -8,7 +8,7 @@ describe("Homepage to recipes page", () => {
 		cy.wait(1000)
 
 		cy.get(".space-y-2").click()
-		cy.get('.flex > [href="/recipe"]').click()
+		cy.get('nav section ul > [href="/recipe"]').click()
 		cy.wait(1000)
 		cy.url().should("include", "recipe")
 		cy.contains("Latest Recipes")
