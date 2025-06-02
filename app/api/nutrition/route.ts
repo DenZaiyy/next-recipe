@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
 
 		const data = await response.json()
 
-		console.log("NUTRITION RESPONSE", response)
+		//console.log("NUTRITION RESPONSE", response)
 
 		return NextResponse.json(data)
 	} catch (err) {
