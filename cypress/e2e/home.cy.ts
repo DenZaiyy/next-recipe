@@ -1,6 +1,6 @@
 describe("Homepage to recipes page", () => {
 	it("Home to recipe lists", () => {
-		cy.visit("http://localhost:3000")
+		cy.visit("http://localhost:3000/")
 
 		cy.contains("CI/CD avec CircleCI")
 		cy.contains("Cypress")
