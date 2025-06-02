@@ -63,4 +63,4 @@ workflows: # Définition des workflows pour organiser les jobs avec des filtres 
 ...
 ```
 
-[![ElanFormation](https://circleci.com/gh/ElanFormation/next-recipes.svg?style=svg)](https://app.circleci.com/projects/circleci/VGbp6eJGiqeE2nbyjZyTf6/XUgHkJqFqHkfTTUGjy6GrX)
+[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/VGbp6eJGiqeE2nbyjZyTf6/XUgHkJqFqHkfTTUGjy6GrX/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/circleci/VGbp6eJGiqeE2nbyjZyTf6/XUgHkJqFqHkfTTUGjy6GrX/tree/main)
