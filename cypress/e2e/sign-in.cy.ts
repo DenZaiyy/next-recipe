@@ -1,6 +1,6 @@
 describe("Visit sign-in page", () => {
 	it("passes", () => {
-		cy.visit("https://next-recipe-denzaiyy.vercel.app/sign-in")
+		cy.visit("http://localhost:3000/sign-in")
 
 		cy.url().should("include", "/sign-in")
 
