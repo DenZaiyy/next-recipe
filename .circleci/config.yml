@@ -105,6 +105,13 @@ jobs:
     executor: lighthouse-check/default
     # Define the steps to run in this job
     steps:
+      - run:
+          name: Run application server
+          command: |
+              # Start the application server in the background
+              npm run start &
+              # Wait for the server to be ready
+              sleep 10
       - lighthouse-check/audit:
           urls: http://localhost:3000
       - lighthouse-check/validate-status:
