@@ -241,14 +241,13 @@ workflows:
             branches:
               only: dev
       - cypress-tests:
-          requires:
-            - test-node
           filters:
             branches:
               only: dev
       - auto-merge-to-test:
           requires:
             - test-node
+            - cypress-tests
           filters:
             branches:
               only: dev
@@ -258,9 +257,14 @@ workflows:
           filters:
             branches:
               only: test
+      - cypress-tests:
+          filters:
+            branches:
+              only: test
       - build-node:
           requires:
             - test-node
+            - cypress-tests
           filters:
             branches:
               only: test
