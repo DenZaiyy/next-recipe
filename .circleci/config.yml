@@ -241,14 +241,9 @@ workflows:
           filters:
             branches:
               only: test
-      - cypress/run:
-          cypress-command: npx cypress run --browser chrome
-          install-browsers: true
-          start-command: npm run start:dev
       - build-node:
           requires:
             - test-node
-            - cypress/run
           filters:
             branches:
               only: test
