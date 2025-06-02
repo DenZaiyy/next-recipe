@@ -1,6 +1,6 @@
 describe("Homepage to recipes page", () => {
 	it("Home to recipe lists", () => {
-		cy.visit("https://next-recipe-denzaiyy.vercel.app")
+		cy.visit("http://localhost:3000")
 
 		cy.contains("CI/CD avec CircleCI")
 		cy.contains("Cypress")
@@ -15,7 +15,7 @@ describe("Homepage to recipes page", () => {
 describe("Recipe detail", () => {
 	it("Recipe detail", () => {
 		cy.visit(
-			"https://next-recipe-denzaiyy.vercel.app/recipe/quiche-de-courge-butternut-et-jambon/",
+			"http://localhost:3000/recipe/quiche-de-courge-butternut-et-jambon/",
 		)
 		cy.contains("Quiche de courge butternut et jambon")
 		cy.contains("Instructions")
