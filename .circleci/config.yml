@@ -232,15 +232,9 @@ workflows:
             branches:
               only: dev
       - cypress-node:
-          requires:
-            - test-node
           filters:
             branches:
               only: dev
-#      - cypress/run:
-#          cypress-command: npx cypress run --browser chrome
-#          install-browsers: true
-#          start-command: npm run dev
       - auto-merge-to-test:
           requires:
             - test-node
