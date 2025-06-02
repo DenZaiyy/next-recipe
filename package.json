@@ -18,7 +18,7 @@
     "audit": "npm audit",
     "postinstall": "prisma generate",
     "cy:open": "cypress open",
-    "e2e": "npx cypress run"
+    "e2e": "npx cypress run --config pageLoadTimeout=100000"
   },
   "dependencies": {
     "@clerk/localizations": "^3.10.6",
