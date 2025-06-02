@@ -40,8 +40,8 @@ jobs:
       - cypress/install:
           package-manager: npm
       - cypress/run-tests:
-          start-command: npm run dev && sleep 10 # Wait for the server to start
-          cypress-command: npx cypress run
+          start-command: npm run dev
+          cypress-command: npx cypress run --browser chrome
   # Job to audit the node project
   audit-node:
     executor: node/default
