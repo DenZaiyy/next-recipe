@@ -22,15 +22,17 @@ jobs:
     steps:
       # Check out the code from the repository
       - checkout
-      # Mise en cache simplifiée des dépendances npm
       - npm-ci
       - run:
           name: Create test-results directory
           command: mkdir -p ./test-results
         # Run the tests using npm and generate test results
       - run:
-          name: Run tests
+          name: Run jest tests
           command: npm run test --ci --runInBand --reporters=default --reporters=jest-junit
+      - run:
+          name: Run cypress tests
+          command: npm run e2e
       # Store the test results in the specified directory
       - store_test_results:
           path: ./test-results/
@@ -105,15 +107,8 @@ jobs:
     executor: lighthouse-check/default
     # Define the steps to run in this job
     steps:
-      - run:
-          name: Run application server
-          command: |
-              # Start the application server in the background
-              npm run start &
-              # Wait for the server to be ready
-              sleep 10
       - lighthouse-check/audit:
-          urls: http://localhost:3000
+          urls: https://next-recipe-git-test-denzaiyys-projects.vercel.app/
       - lighthouse-check/validate-status:
           minAccessibilityScore: '50'
           minPerformanceScore: '90'
