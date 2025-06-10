@@ -1,8 +1,6 @@
 "use client"
 
 import { useUser } from "@clerk/nextjs"
-import { useEffect, useState } from "react"
-import { apiMealService } from "@/services/mealService"
 import Image from "next/image"
 import {
 	Clock9,
@@ -14,33 +12,12 @@ import {
 } from "lucide-react"
 import { useForm } from "@/hooks/meal/useForm"
 import { formatDate } from "@/lib/utils"
+import { useFetchMealPlans } from "@/hooks/meal/useFetchMealPlans"
 
 const MyMealPlanner = () => {
 	const { user, isSignedIn } = useUser()
 	const { handleDeleteMealPlan, handleDeleteMealPlanRecipe } = useForm()
-
-	const [mealPlans, setMealPlans] = useState<TMealPlan[]>([])
-	const [isLoading, setIsLoading] = useState(false)
-
-	useEffect(() => {
-		// Fetch user meal plans
-		const fetchMealPlans = async (userId: string) => {
-			try {
-				setIsLoading(true)
-				const data = await apiMealService.getMealPlanByUser(userId)
-
-				if (data) setMealPlans(data)
-			} catch (err) {
-				console.error(err)
-			} finally {
-				setIsLoading(false)
-			}
-		}
-
-		if (user) {
-			fetchMealPlans(user.id)
-		}
-	}, [user])
+	const { mealPlans, isLoading } = useFetchMealPlans()
 
 	// Fonction pour obtenir l'icône correspondant au type de repas
 	const getMealTypeIcon = (mealType: string) => {
