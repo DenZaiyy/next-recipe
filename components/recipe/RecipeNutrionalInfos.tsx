@@ -58,29 +58,47 @@ export const RecipeNutritionalInfos = ({
 			setProtein(nutritionInfo["PROCNT"])
 			setCarbohydrate(nutritionInfo["CHOCDF"])
 			setLipid(nutritionInfo["FAT"])
-			setSugars(nutritionInfo["SUGAR"])
+			setSugars(nutritionInfo[" SUGAR"])
 			setVitC(nutritionInfo["VITC"])
 
 			/*const labels = Object.keys(nutritionInfo).map((key) => key)
-            const values = Object.values(nutritionInfo).map(
-                (value) => value.quantity,
-            )*/
+			const values = Object.values(nutritionInfo).map(
+				(value) => value.quantity,
+			)
+
+			setDatas({ labels, values })*/
+
+			const labels = [
+				"Calories",
+				"Protein",
+				"Carbohydrate",
+				"Lipid",
+				"Sugars",
+				"Vitamin C",
+			]
+			const values = [
+				calories ? calories.quantity : 0,
+				protein ? protein.quantity : 0,
+				carbohydrate ? carbohydrate.quantity : 0,
+				lipid ? lipid.quantity : 0,
+				sugars ? sugars.quantity : 0,
+				vitC ? vitC.quantity : 0,
+			]
+
+			setDatas({ labels, values })
 		}
 
-		const labels = [
-			"Calories",
-			"Protein",
-			"Carbohydrate",
-			"Lipid",
-			"Sugars",
-			"Vitamin C",
-		]
-		const values = [1.4, 3.4, 1, 0.4, 0.6, 0.8]
-
-		setDatas({ labels, values })
-
 		fetchNutritionInfo(ingredientsString)
-	}, [ingredients, ingredientsString])
+	}, [
+		ingredients,
+		ingredientsString,
+		calories,
+		protein,
+		carbohydrate,
+		lipid,
+		sugars,
+		vitC,
+	])
 
 	return (
 		<div className="w-full">
