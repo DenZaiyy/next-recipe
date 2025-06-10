@@ -2,7 +2,7 @@
 Le détail de la configuration CircleCI pour le déploiement de l'application Next.js est géré dans le fichier [`.circleci/config.yml`](https://github.com/DenZaiyy/next-recipe/blob/main/.circleci/config.yml). Ce fichier contient les étapes nécessaires pour construire, tester et déployer l'application sur Vercel.
 
 ## 📖 Sommaire
-- [A propos du projet](#a-propos-du-projet)
+- [À propos du projet](#à-propos-du-projet)
 - [Les prérequis](#les-prérequis)
 - [Structure du pipeline](#structure-du-pipeline)
 - [Branche `dev`](#branche-dev)
@@ -10,7 +10,7 @@ Le détail de la configuration CircleCI pour le déploiement de l'application Ne
 - [Branche `main`](#branche-main)
 - [Exemple de structure du fichier config.yml](#exemple-de-structure-du-fichier-configyml)
 
-## A propos du projet
+## À propos du projet
 Ce projet est une application Next.js qui utilise Prisma pour la gestion de la base de données et Vercel pour le déploiement. La configuration CircleCI permet d'automatiser les tests, la construction et le déploiement de l'application à chaque modification du code.
 
 ## Les prérequis
