@@ -2,33 +2,14 @@
 
 import { useUser } from "@clerk/nextjs"
 import Link from "next/link"
-import { useEffect, useState } from "react"
-import { apiMealService } from "@/services/mealService"
 import { CategoryRecipe } from "@/components/meal/CategoryRecipe"
 import { useForm } from "@/hooks/meal/useForm"
+import { useFetchCategories } from "@/hooks/meal/useFetchCategories"
 
 const MealPlanner = () => {
 	const { user, isSignedIn, isLoaded } = useUser()
 	const { handleSubmit, isSubmitted } = useForm()
-	const [isLoading, setIsLoading] = useState<boolean>(false)
-	const [categories, setCategories] = useState<TCategory[]>([])
-
-	useEffect(() => {
-		const fetchCategories = async () => {
-			setIsLoading(true)
-			try {
-				const data = await apiMealService.getCategories()
-
-				if (data) setCategories(data)
-			} catch (err) {
-				console.error(err)
-			} finally {
-				setIsLoading(false)
-			}
-		}
-
-		fetchCategories()
-	}, [])
+	const { categories, isLoading } = useFetchCategories()
 
 	if (!isLoaded) {
 		return <div>Loading...</div>
