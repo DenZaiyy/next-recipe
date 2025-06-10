@@ -22,15 +22,15 @@
   },
   "dependencies": {
     "@clerk/localizations": "^3.16.0",
-    "@clerk/nextjs": "^6.11.3",
+    "@clerk/nextjs": "^6.19.4",
     "@dnd-kit/core": "^6.3.1",
     "@faker-js/faker": "^9.5.0",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
-    "@prisma/client": "^6.4.0",
+    "@prisma/client": "^6.8.2",
     "chart.js": "^4.4.8",
     "date-fns": "^4.1.0",
-    "lucide-react": "^0.503.0",
+    "lucide-react": "^0.507.0",
     "next": "^15.3.1",
     "react": "^19.0.0",
     "react-chartjs-2": "^5.3.0",
@@ -38,7 +38,7 @@
     "react-hot-toast": "^2.5.2",
     "svix": "^1.62.0",
     "swiper": "^11.2.2",
-    "zod": "^3.24.2"
+    "zod": "^3.25.7"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
