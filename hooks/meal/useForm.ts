@@ -17,7 +17,6 @@ export const useForm = () => {
 		e.preventDefault()
 
 		const formData = new FormData(e.currentTarget)
-		console.log(formData)
 		const date = formData.get("date")
 
 		if (!date) {
