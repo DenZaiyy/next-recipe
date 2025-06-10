@@ -12,10 +12,12 @@ import {
 	Trash2,
 	Utensils,
 } from "lucide-react"
-import toast from "react-hot-toast"
+import { useForm } from "@/hooks/meal/useForm"
+import { formatDate } from "@/lib/utils"
 
 const MyMealPlanner = () => {
 	const { user, isSignedIn } = useUser()
+	const { handleDeleteMealPlan, handleDeleteMealPlanRecipe } = useForm()
 
 	const [mealPlans, setMealPlans] = useState<TMealPlan[]>([])
 	const [isLoading, setIsLoading] = useState(false)
@@ -39,68 +41,6 @@ const MyMealPlanner = () => {
 			fetchMealPlans(user.id)
 		}
 	}, [user])
-
-	const handleDeleteMealPlan = async (userId: string, mealPlanId: string) => {
-		const isConfirmed = confirm(
-			"Êtes-vous sûr de vouloir supprimer cet élément ?",
-		)
-
-		if (!isConfirmed) return
-
-		try {
-			if (!userId) {
-				return
-			}
-			await apiMealService.deleteMealPlan(userId, mealPlanId)
-			setMealPlans((prevMealPlans) =>
-				prevMealPlans.filter((mealPlan) => mealPlan.id !== mealPlanId),
-			)
-			toast.success("Meal plan deleted successfully")
-		} catch (err) {
-			toast.error("Failed to delete meal plan")
-			if (err instanceof Error) console.log(err.message)
-		}
-	}
-
-	const handleDeleteMealPlanRecipe = async (
-		userId: string,
-		mealPlanId: string,
-		mealPlanRecipeId: string,
-	) => {
-		const isConfirmed = confirm(
-			"Êtes-vous sûr de vouloir supprimer cet élément ?",
-		)
-
-		if (!isConfirmed) return
-
-		try {
-			if (!userId) {
-				return
-			}
-			await apiMealService.deleteMealPlanRecipe(
-				userId,
-				mealPlanId,
-				mealPlanRecipeId,
-			)
-			setMealPlans((prevMealPlans) =>
-				prevMealPlans.filter((mealPlan) => mealPlan.id !== mealPlanId),
-			)
-			toast.success("Meal plan recipe deleted successfully")
-		} catch (err) {
-			toast.error("Failed to delete meal plan recipe")
-			if (err instanceof Error) console.log(err.message)
-		}
-	}
-
-	// Fonction pour formater la date
-	const formatDate = (dateString: string) => {
-		const date = new Date(dateString)
-		return date.toLocaleDateString("fr-FR", {
-			day: "2-digit",
-			month: "2-digit",
-			year: "numeric",
-		})
-	}
 
 	// Fonction pour obtenir l'icône correspondant au type de repas
 	const getMealTypeIcon = (mealType: string) => {
@@ -164,7 +104,7 @@ const MyMealPlanner = () => {
 									)}
 
 								<h2 className="text-foreground text-lg font-semibold mb-4">
-									{formatDate(mealPlan.date.toString())}
+									{formatDate(mealPlan.date)}
 								</h2>
 
 								{/* Afficher chaque groupe de type de repas */}

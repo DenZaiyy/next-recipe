@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import toast from "react-hot-toast"
 import { useUser } from "@clerk/nextjs"
+import { apiMealService } from "@/services/mealService"
 
 interface IMealPlanRecipes {
 	mealType: string
@@ -74,5 +75,56 @@ export const useForm = () => {
 		}
 	}
 
-	return { handleSubmit, isSubmitted }
+	const handleDeleteMealPlan = async (userId: string, mealPlanId: string) => {
+		const isConfirmed = confirm(
+			"Êtes-vous sûr de vouloir supprimer cet élément ?",
+		)
+
+		if (!isConfirmed) return
+
+		try {
+			if (!userId) {
+				return
+			}
+			await apiMealService.deleteMealPlan(userId, mealPlanId)
+			toast.success("Meal plan deleted successfully")
+		} catch (err) {
+			toast.error("Failed to delete meal plan")
+			if (err instanceof Error) console.log(err.message)
+		}
+	}
+
+	const handleDeleteMealPlanRecipe = async (
+		userId: string,
+		mealPlanId: string,
+		mealPlanRecipeId: string,
+	) => {
+		const isConfirmed = confirm(
+			"Êtes-vous sûr de vouloir supprimer cet élément ?",
+		)
+
+		if (!isConfirmed) return
+
+		try {
+			if (!userId) {
+				return
+			}
+			await apiMealService.deleteMealPlanRecipe(
+				userId,
+				mealPlanId,
+				mealPlanRecipeId,
+			)
+			toast.success("Meal plan recipe deleted successfully")
+		} catch (err) {
+			toast.error("Failed to delete meal plan recipe")
+			if (err instanceof Error) console.log(err.message)
+		}
+	}
+
+	return {
+		handleSubmit,
+		isSubmitted,
+		handleDeleteMealPlan,
+		handleDeleteMealPlanRecipe,
+	}
 }
