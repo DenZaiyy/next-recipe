@@ -74,10 +74,5 @@ export const useForm = () => {
 		}
 	}
 
-	const handleReset = async (e: React.FormEvent<HTMLFormElement>) => {
-		setIsSubmitted(false)
-		e.currentTarget.reset()
-	}
-
-	return { handleSubmit, handleReset, isSubmitted }
+	return { handleSubmit, isSubmitted }
 }
