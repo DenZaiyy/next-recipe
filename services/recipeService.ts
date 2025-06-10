@@ -4,7 +4,7 @@ export interface RecipeService {
 	getRecipes: () => Promise<TRecipe[]>
 	getRecipe: (slug: string) => Promise<TRecipe>
 	getSuggestions: (
-		cateogryId: string,
+		categoryId: string,
 		currentRecipeId: string,
 	) => Promise<TRecipe[]>
 	deleteComment: (slug: string, commentId: string) => Promise<void>
