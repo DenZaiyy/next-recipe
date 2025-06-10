@@ -5,17 +5,11 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { apiMealService } from "@/services/mealService"
 import { CategoryRecipe } from "@/components/meal/CategoryRecipe"
-import toast from "react-hot-toast"
-
-interface IMealPlanRecipes {
-	mealType: string
-	order: number
-	recipeId: string
-}
+import { useForm } from "@/hooks/meal/useForm"
 
 const MealPlanner = () => {
 	const { user, isSignedIn, isLoaded } = useUser()
-	const [message, setMessage] = useState("")
+	const { handleSubmit, isSubmitted } = useForm()
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [categories, setCategories] = useState<TCategory[]>([])
 
@@ -35,64 +29,6 @@ const MealPlanner = () => {
 
 		fetchCategories()
 	}, [])
-
-	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-		e.preventDefault()
-
-		const formData = new FormData(e.currentTarget)
-		const date = formData.get("date")
-
-		if (!date) {
-			setMessage("Please select a date")
-			return
-		}
-
-		if (!user) {
-			setMessage("Please sign in to create a meal plan")
-			return
-		}
-
-		// Récupérer tous les champs mealPlanRecipes
-		const orders = formData.getAll("mealPlanRecipes[][order]")
-		const mealTypes = formData.getAll("mealPlanRecipes[][mealType]")
-		const recipeIds = formData.getAll("mealPlanRecipes[][recipeId]")
-
-		// Construire le tableau de mealPlanRecipes
-		const mealPlanRecipes: IMealPlanRecipes[] = []
-		for (let i = 0; i < recipeIds.length; i++) {
-			mealPlanRecipes.push({
-				mealType: mealTypes[i].toString(),
-				order: parseInt(orders[i].toString()),
-				recipeId: recipeIds[i].toString(),
-			})
-		}
-
-		if (mealPlanRecipes.length === 0) {
-			setMessage("Please select at least one recipe")
-			return
-		}
-
-		try {
-			const response = await fetch(`/api/meal`, {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ date, mealPlanRecipes }),
-			})
-
-			const data = await response.json()
-			setMessage(data.message)
-
-			toast.success(`Meal Plan created successfully`)
-
-			if (data.redirect) {
-				setTimeout(() => {
-					window.location.href = "/meal/" + user.id
-				}, 2000)
-			}
-		} catch (err) {
-			if (err instanceof Error) setMessage(`Error: ${err.message}`)
-		}
-	}
 
 	if (!isLoaded) {
 		return <div>Loading...</div>
@@ -122,11 +58,6 @@ const MealPlanner = () => {
 						onSubmit={handleSubmit}
 						className="flex flex-col gap-4"
 					>
-						{message && (
-							<div className="p-4 bg-secondary text-white rounded-md">
-								{message}
-							</div>
-						)}
 						<div className="flex flex-col gap-2">
 							<label htmlFor="date" className="capitalize">
 								Select date:
@@ -151,12 +82,18 @@ const MealPlanner = () => {
 										))
 									: ""}
 						</div>
-						<button
-							type="submit"
-							className="px-4 py-2 bg-green-600 text-white text-md rounded-md w-max capitalize"
-						>
-							Validate meal plan
-						</button>
+						{isSubmitted ? (
+							<p className="text-green-600">
+								Meal plan created successfully!
+							</p>
+						) : (
+							<button
+								type="submit"
+								className="px-4 py-2 bg-green-600 text-white text-md rounded-md w-max capitalize"
+							>
+								Validate meal plan
+							</button>
+						)}
 					</form>
 				)}
 			</div>
