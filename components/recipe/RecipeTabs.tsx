@@ -1,7 +1,6 @@
 import { CookingPot } from "lucide-react"
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react"
-import { IngredientCard } from "./tabs/IngredientCard"
-import { ToolCard } from "./tabs/ToolCard"
+import { RecipeTabsItemsCard } from "@/components/recipe/RecipeTabsItemsCard"
 
 interface RecipeTabsProps {
 	ingredients: TIngredientRecipe[]
@@ -27,7 +26,7 @@ export const RecipeTabs = ({ ingredients, tools }: RecipeTabsProps) => {
 				<TabPanels className="p-6">
 					<TabPanel className="flex gap-4 flex-wrap text-foreground text-lg font-medium">
 						{ingredients.map((ingredientRecipe) => (
-							<IngredientCard
+							<RecipeTabsItemsCard
 								key={ingredientRecipe.id}
 								ingredientRecipe={ingredientRecipe}
 							/>
@@ -35,7 +34,7 @@ export const RecipeTabs = ({ ingredients, tools }: RecipeTabsProps) => {
 					</TabPanel>
 					<TabPanel className="grid grid-cols-2 md:flex md:items-center gap-4 md:flex-wrap text-foreground text-lg font-medium">
 						{tools.map((toolRecipe) => (
-							<ToolCard
+							<RecipeTabsItemsCard
 								key={toolRecipe.id}
 								toolRecipe={toolRecipe}
 							/>
